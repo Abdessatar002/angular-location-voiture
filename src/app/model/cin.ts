@@ -6,9 +6,4 @@ export class Cin {
 
     public valableJusqa: Date;
 
-    constructor() {
-        this.cinId = '';
-        this.valableJusqa = null;
-    }
-
 }

@@ -1,7 +1,7 @@
-import { Cin } from "./Cin";
-import { Contrat } from "./contrat";
+import { Cin } from "./cin";
 import { Document } from "./document";
 import { Permis } from "./Permis";
+
 
 export class Client {
     public id: number;
@@ -30,7 +30,6 @@ export class Client {
         this.dateDeNaissance = null;
         this.address = '';
         this.tel = '';
-        this.cin = new Cin()
         this.permis = new Permis();
         this.clientDoc = null;
 

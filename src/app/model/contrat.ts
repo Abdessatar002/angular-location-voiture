@@ -1,6 +1,4 @@
-import { Cin } from "./Cin";
 import { Client } from "./client";
-import { Permis } from "./Permis";
 import { Voiture } from "./voiture";
 
 export class Contrat {

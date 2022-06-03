@@ -1,4 +1,4 @@
-import { Cin } from "./Cin";
+import { Cin } from "./cin";
 import { Client } from "./client";
 import { Permis } from "./Permis";
 
