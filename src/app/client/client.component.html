@@ -1,0 +1,430 @@
+<div class="container">
+
+    <nav class="navbar bar navbar-expand breadcrumb mt-3">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="nav nav-pills">
+                <a class="nav-item nav-link active ml-1" id="tabClient" data-bs-toggle="tab" href="#client">
+                    <i class="fa fa-users"></i>
+                    Clients
+                </a>
+                <a class="nav-item nav-link ml-3" data-bs-toggle="tab" href="#ajouter">
+                    <i class="fa fa-plus"></i>
+                    Ajouter
+                </a>
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="client">
+                <div class="_content">
+                    <div>
+                        <select (change)="sortedClientList($event.target.value)" class="form-select"
+                            aria-label="Default select example">
+                            <option disabled selected>Ordre par</option>
+                            <option value="">Default</option>
+                            <option value="nom">Nom</option>
+                            <option value="prenom">Prénom</option>
+                            <option value="dateDeNaissance">Naissance</option>
+                            <option value="tel">Tél</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <input type="search" name="" id="" class="form-control mx-1 " placeholder="Search..."
+                        (keyup)="selectPageOne()" [(ngModel)]="searchValue">
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class=" table table-sm text-center  pointer table-hover mt-2 text-capitalize">
+                        <thead class="">
+                            <tr>
+                                <th><i class="far fa-user"></i> Nom</th>
+                                <th> <i class="far fa-user"></i> Prénom </th>
+                                <th><i class="far fa-calendar-minus"></i> Date de naissance</th>
+                                <th><i class="fas fa-phone-square-alt"></i> Téléphone</th>
+                                <th><i class="fas fa-map-marker-alt"></i> Address</th>
+                                <th><i class="fas fa-address-card"></i> N° Cin/Passport</th>
+                                <th><i class="fas fa-address-card"></i> N° Permis</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let client of clientDto | clientFilter : searchValue| paginate: { itemsPerPage:_itemsPerPage , currentPage: _currentPage} ">
+                                <td (dblclick)="onEditClient(client)">{{client?.nom}}</td>
+                                <td (dblclick)="onEditClient(client)">{{client?.prenom}}</td>
+                                <td (dblclick)="onEditClient(client)">{{client?.dateDeNaissance}}</td>
+                                <td (dblclick)="onEditClient(client)">{{client?.tel}}</td>
+                                <td (dblclick)="onEditClient(client)">
+                                    <span class="d-inline-block text-truncate" style="max-width: 450px;">
+                                        {{client?.address}}
+                                    </span>
+                                </td>
+                                <td (dblclick)="onEditClient(client)">{{client?.cin.cinId}}
+                                    <br>
+                                    <small>
+                                        {{client?.cin.valableJusqa |date: 'dd-MM-yyyy'}}
+                                        <span *ngIf="client?.cin?.valableJusqa <toDayMuinisTenDays"> 
+                                            <span class="badge bg-warning text-dark"><i class="fas fa-exclamation"></i></span>  
+                                        </span> 
+                                    </small>
+                               
+                                </td>
+                                <td (dblclick)="onEditClient(client)">
+                                    {{client?.permis.permisId}}
+                                    <br>
+                                    <small>
+                                        {{client?.permis?.valableJusqa |date: 'dd-MM-yyyy'}}
+                                        <span *ngIf="client?.permis?.valableJusqa < toDayMuinisTenDays"> 
+                                            <span class="badge bg-warning text-dark"><i class="fas fa-exclamation"></i></span>  
+                                        </span>
+                                    </small>
+                                     
+                                </td>
+                                <td>
+                                    <button routerLink="/client/{{client.id}}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button routerLink="/newcontrat/{{client.id}}"
+                                        class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button (click)="OpenModelDelete(client?.id)" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                            <tr *ngIf="!(clientDto | clientFilter: searchValue)?.length">
+                                <td colspan="8">
+                                    <p class="alert alert-danger">Aucun client trouvé</p>
+                                </td>
+                            </tr>
+
+
+
+                        </tbody>
+
+                    </table>
+                    
+
+                    <div class="container pagination">
+                        <div>
+                          <pagination-controls (pageChange)="_currentPage = $event">
+                          
+                          </pagination-controls>
+                        </div>    
+                        <div class="mx-3">
+                          Page size :
+                          <select (change)="changePageSize($event.target.value)" class="mx-2">
+                            <option selected value="10">10</option>
+                            <option value="25" >25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                        </div>
+                        
+                      </div>
+
+                </div>
+            </div>
+
+
+
+
+            <div class="tab-pane fade" id="ajouter">
+                <form [formGroup]="clitntForm" (ngSubmit)="addClient()">
+                    <div class="row">
+                        <div class="col-lg">
+                            <div class="card">
+                                <!-- Client from group-->
+
+                                <div class="card-header">
+                                    <b><i class="fas fa-user"></i> Client</b>
+                                </div>
+
+                                <div formGroupName="client">
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">Nom / Name</label>
+                                            <input type="text" formControlName="nom" class="form-control" />
+                                            <div *ngIf="nom.invalid && (nom.dirty || nom.touched)"
+                                                class="badge bg-danger">
+                                                <div *ngIf="nom.errors.required || nom.errors.notOnlyWhiteSpace">champs
+                                                    requis </div>
+                                                <div *ngIf="nom.errors.minlength">Le nom doit comporter au moins 3
+                                                    caractères</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="" class="mt-2 form-label">Prénom / First Name</label>
+                                            <input type="text" formControlName="prenom" class="form-control" />
+                                            <div *ngIf="prenom.invalid && (prenom.dirty || prenom.touched)"
+                                                class="badge bg-danger">
+                                                <div *ngIf="prenom.errors.required|| prenom.errors.notOnlyWhiteSpace">
+                                                    champs requis </div>
+                                                <div *ngIf="prenom.errors.minlength">Le prénom doit comporter au moins 3
+                                                    caractères</div>
+                                            </div>
+                                        </div>
+                                        <div>
+
+
+                                            <div>
+                                                <div class="form-group">
+                                                    <label for="" class="mt-2 form-label">Date de naissence / Date
+                                                        of birth</label>
+                                                        <input class="form-control" formControlName="dateDeNaissance" type="date">
+                                                    <div *ngIf="dateDeNaissance.invalid && (dateDeNaissance.touched ||dateDeNaissance.dirty)"
+                                                        class="badge bg-danger">
+                                                        <div>champs requis</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <label for="" class="mt-2 form-label">Telephone / Phone</label>
+                                            <input type="tel" formControlName="tel" class="form-control" />
+                                            <div *ngIf="tel.invalid && (tel.dirty || tel.touched)"
+                                                class="badge bg-danger">
+                                                <div *ngIf="tel.errors.minlength">N° Permis doit comporter au moins 10
+                                                    caractères</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="mt-2 form-label">Address</label>
+                                            <textarea type="text-a" formControlName="address"
+                                                class="form-control"></textarea>
+                                            <div *ngIf="address.invalid && (address.dirty || address.touched)"
+                                                class="badge bg-danger">
+                                                <div
+                                                    *ngIf="address.errors.required || address.errors.notOnlyWhiteSpace">
+                                                    champs requis </div>
+                                                <div *ngIf="address.errors.minlength">L'address doit comporter au moins
+                                                    10 caractères</div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col">
+                            <div class="card">
+                                <!-- CIN-->
+                                <div formGroupName="cin">
+                                    <div class="card-header">
+                                        <b><i class="fas fa-address-card"></i> Cin</b>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">C.I.N ou passeport N°</label>
+                                            <input type="text" formControlName="cinId" class="form-control" />
+                                            <div *ngIf="cinId.invalid && (cinId.dirty || cinId.touched)"
+                                                class="badge bg-danger">
+                                                <div *ngIf="cinId.errors.required|| cinId.errors.notOnlyWhiteSpace">
+                                                    champs required</div>
+                                                <div *ngIf="cinId.errors.minlength">N° C.I.N doit comporter au moins 5
+                                                    caractères</div>
+                                            </div>
+                                        </div>
+                                        <div>
+
+
+                                            <div class="col-lg">
+                                                <label for="" class="mt-2 form-label">Valable jusqu'au :</label>
+                                                <input class="form-control" formControlName="valableJusqa" type="date">
+                                                    <div *ngIf="cinValableJusqa.invalid && (cinValableJusqa.touched ||cinValableJusqa.dirty)"
+                                                        class="badge bg-danger">
+                                                        <div>champs requis</div>
+                                                    </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <!-- permis-->
+                                <div formGroupName="permis">
+                                    <div class="card-header">
+                                        <b><i class="fas fa-id-card-alt"></i> Permis</b>
+                                    </div>
+                                    <div class="card-body">
+                                        <label for="" class="form-label">Permis de conduire N°</label>
+                                        <div>
+                                            <input type="text" formControlName="permisId" class="form-control" />
+                                            <div *ngIf="permiId.invalid && (permiId.dirty || permiId.touched)"
+                                                class="badge bg-danger">
+                                                <div
+                                                    *ngIf="permiId.errors.required || permiId.errors.notOnlyWhiteSpace">
+                                                    champs required</div>
+                                                <div *ngIf="permiId.errors.minlength">N° Permis doit comporter au moins
+                                                    5 caractères</div>
+                                            </div>
+                                        </div>
+                                        <div>
+
+
+                                            <div class="col-lg">
+                                                <label for="" class="mt-2 form-label">Valable jusqu'au :</label>
+                                                <input class="form-control" formControlName="valableJusqa" type="date">
+                                                    <div *ngIf="permisValableJusqa.invalid && (permisValableJusqa.touched ||permisValableJusqa.dirty)"
+                                                        class="badge bg-danger">
+                                                        <div>champs requis</div>
+                                                    </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SUBMIT bottun-->
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                <div class="mt-3 my-btn">
+                                    <button type="submit" class="btn btn-success">Ajouter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal edit client -->
+<button [hidden]="true" id="bottunEditClient" type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#editclient"></button>
+
+<!-- Modal edit client -->
+<div class="modal fade" id="editclient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header  ">
+                <h5 class="modal-title fs-3"><b> {{client?.nom}}</b></h5>
+                <button (click)="getClients('')" type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form #editForm="ngForm" action="">
+                <div class="modal-body">
+
+
+
+                    <div class="form-group">
+                        <label class="form-label" for="">Nom</label>
+                        <input class="form-control" required [(ngModel)]="client.nom" name="nom" type="text">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="form-label" for="">Prénom</label>
+                        <input class="form-control" required [(ngModel)]="client.prenom" name="prenom" type="text">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="form-label" for="">Date de naissance</label>
+                        <input class="form-control" required [(ngModel)]="client.dateDeNaissance"name="dateDeNaissance" type="date">
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label class="form-label" for="">Telephone</label>
+                        <input class="form-control" [(ngModel)]="client.tel" name="tel" type="tel">
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label class="form-label" for="">Adresse</label>
+
+                        <textarea class="form-control" required [(ngModel)]="client.address" name="adresse"
+                            name="address" id="" cols="30" rows="2"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group mt-2">
+                                <label class="form-label" for="">N° C.I.N / Passport</label>
+                                <input class="form-control" minlength="4" required [(ngModel)]="client.cin.cinId"
+                                    name="cinId" type="tel">
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group mt-2">
+                                <label class="form-label" for="">Valable jusqa</label>
+                                <input class="form-control" required [(ngModel)]="client.cin.valableJusqa" name="cinValableJusqa" type="date">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group mt-2">
+                                <label class="form-label" for="">N° Permis</label>
+                                <input class="form-control" minlength="4" required [(ngModel)]="client.permis.permisId"
+                                    name="permiId" type="text">
+                            </div>
+
+                        </div>
+
+                        <div class="col ">
+                            <div class="form-group mt-2">
+                                <label class="form-label" for="">Valable jusqa</label>
+                                <input class="form-control" required [(ngModel)]="client.permis.valableJusqa" name="permisValableJusqa" type="date">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button style="display: none;" id="submitEditVoitureForm" type="submit" class="btn btn-primary">Save
+                    changes</button>
+            </form>
+            <div class="modal-footer">
+                <button type="button" (click)="getClients('')" id="closeModelEditClient" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Close</button>
+                <button type="button" id="editeclientmodel" [disabled]="editForm.invalid" (click)="editClient()"
+                    class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal delete -->
+<button [hidden]="true" type="button" id="OpenModelDelete" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#exampleModal"> </button>
+
+<!-- Modal delete -->
+<div class="modal fade model-danger" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-3" id="exampleModalLabel">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span class="badge bg-danger">ATTENTION !</span>  <span> Tous les contrats et documents associés à ce client seront supprimés !</span>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModeldelete" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Annuler</button>
+                <button type="button" (click)="deleteClient()" class="btn btn-danger"><i class="fas fa-trash-alt"></i>
+                    Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

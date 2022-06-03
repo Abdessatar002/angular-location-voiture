@@ -1,0 +1,219 @@
+<div  class="container ">
+
+    <div class="_content">
+      <div>
+      <select (change)="sortedEnterpriseList($event.target.value)" class="form-select" aria-label="Default select example">
+        <option disabled selected>Ordre par</option>
+        <option value="" >Default</option>
+        <option value="prenom">Société</option>
+        <option value="address">Adresse</option>
+        <option value="tel">Tél</option>
+        <option value="ice">ICE</option>
+      </select>
+      </div>
+      <div class="">
+        <input type="text" name="" id="" class="form-control mx-1 " placeholder="Search..." (keyup)="selectPageOne()" [(ngModel)]="searchValue">
+      </div>
+      <button class="mx-2" (click)="openModelAddUpdate()" mat-stroked-button color="primary"><i class="fas fa-plus"></i> Ajouter</button>
+        
+    </div>
+<div class="table-responsive">
+  <table class=" table table-sm text-center  pointer table-hover mt-2 text-capitalize">
+      <thead class="">
+          <tr>
+              <th> <i class="fas fa-building"></i> Sociéte.</th>
+              <th><i class="fas fa-map-marker-alt"></i> Adresse. </th>
+              <th><i class="fas fa-phone-alt"></i> Tel.</th>
+              <th><i class="fas fa-stamp"></i> ICE.</th>
+              <th>Options</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let enterprise of enterprises | enterpriseFilter : searchValue | paginate: { itemsPerPage: _itemsPerPage, currentPage: _currentPage }">
+              <td (dblclick)="getEditEnterprise(enterprise)">{{enterprise.prenom}}</td>
+              <td (dblclick)="getEditEnterprise(enterprise)">{{enterprise.address}}</td>
+              <td (dblclick)="getEditEnterprise(enterprise)">{{enterprise.tel}}</td>
+              <td (dblclick)="getEditEnterprise(enterprise)">{{enterprise.ice}}</td>
+              <td>
+                <button routerLink="/enterprise/{{enterprise.id}}" class="btn btn-sm btn-outline-secondary">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button routerLink="/newcontrat/enterprise/{{enterprise.id}}" class="btn btn-sm btn-outline-success">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button (click)="openModelDeleteenterprises(enterprise)" class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+          </tr>
+          <tr *ngIf="!(enterprises | enterpriseFilter: searchValue)?.length">
+
+              <td colspan="8">
+
+                  <p class="alert alert-danger">Aucun client trouvé</p>
+              </td>
+          </tr>
+
+      </tbody>
+  </table>
+  
+  <!-- Paginations Liks -->
+  <div class="container pagination">
+    <div>
+      <pagination-controls (pageChange)="_currentPage = $event">
+      
+      </pagination-controls>
+    </div>    
+    <div class="mx-3">
+      Page size :
+      <select (change)="changePageSize($event.target.value)" class="mx-2">
+        <option selected value="10">10</option>
+        <option value="25" >25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    
+  </div>
+  
+</div>    
+  </div>
+
+
+  <!--button open Modal ADD  -->
+<button hidden id="modelAddUpdate" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+</button>
+
+<!-- Modal ADD  -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #enterprseForm="ngForm" (ngSubmit)="addEnterprise(enterprseForm)">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-building"></i> Sociéte</label>
+            <input required ngModel name="prenom" type="text" class="form-control" id="">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-map-marker-alt"></i>  Adresse</label>
+            <input  type="text" ngModel name="address" class="form-control" id="" >
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-phone-alt"></i> Tel</label>
+            <input  type="tel" ngModel name="tel" class="form-control" id="" >
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-stamp"></i> ICE</label>
+            <input  type="tel" ngModel name="ice" class="form-control" id="" >
+          </div>
+         
+          <div>
+
+            
+            <hr>
+            <button type="button" data-bs-dismiss="modal" id="btn-close-add"  class="m-1 btn btn-secondary"><i class="fas fa-undo-alt"></i> Cancel</button>
+
+            <button type="submit" [disabled]="enterprseForm.invalid"  class="btn btn-primary"><i class="fas fa-check"></i> Ajouter</button>
+          
+          </div>
+          
+
+
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------ -->
+
+   <!--button open Modal update  -->
+<button hidden id="openUpdateModel" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModel">
+</button>
+
+<!-- Modal update  -->
+<div class="modal fade" id="updateModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">TEST</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateEnterprseForm="ngForm" (ngSubmit)="updateEnterprise(updateEnterprseForm)">
+          <div hidden class="mb-3">
+            <input required [(ngModel)]="enterprise.id" name="id" type="text" class="form-control" id="">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-building"></i> Sociéte</label>
+            <input required [(ngModel)]="enterprise.prenom" name="prenom" type="text" class="form-control" id="">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-map-marker-alt"></i>  Adresse</label>
+            <input  type="text" [(ngModel)]="enterprise.address" name="address" class="form-control" id="" >
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-phone-alt"></i> Tel</label>
+            <input  type="tel" [(ngModel)]="enterprise.tel"  name="tel" class="form-control" id="" >
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"><i class="fas fa-stamp"></i> ICE</label>
+            <input  type="tel" [(ngModel)]="enterprise.ice" name="ice" class="form-control" id="" >
+          </div>
+         
+          <div>
+
+            
+            <hr>
+            <button type="button" data-bs-dismiss="modal" id="btn-close-update"  class="m-1 btn btn-secondary"><i class="fas fa-undo-alt"></i> Cancel</button>
+
+            <button type="submit"   class="btn btn-primary"><i class="fas fa-check"></i> Ajouter</button>
+          
+          </div>
+          
+
+
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------ -->
+
+<!--button open  confirme delete Modal  -->
+<button hidden id="opendelteModel" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delteModel">
+</button>
+
+<!-- Modal confirme delete  -->
+<div class="modal fade " id="delteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-3"  id="exampleModalLabel">suppression</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="badge bg-danger">ATTENTION !</span>  <span> Tous les contrats et documents associés à {{enterprise.prenom}} seront supprimés !</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  id="closeModeldeleteEnter" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" (click)="deleteEnterprise()" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+  
+  

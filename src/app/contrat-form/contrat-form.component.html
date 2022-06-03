@@ -1,0 +1,394 @@
+
+<div class="container mt-4">
+  <form #contratForm="ngForm" (ngSubmit)="onSubmit(contratForm.value)" action="">
+    <div class="row">
+      <div class="col-lg">
+        <div class="card">
+          <!-- Client from group-->
+          <mat-tab-group>
+            <mat-tab *ngIf="isClient" label="Conducteur N°1">
+              <div>
+                <div class="card-body">
+                  <div [hidden]="hideSelect" class="form-group">
+                    <label for="" class="form-label">Nom Et Prenom</label>
+                    <div>
+                      <p-dropdown class="form-group" [options]="clientsForSelect" (onChange)="getclient1(selectedPerson1)" [(ngModel)]="selectedPerson1" placeholder="---Select Cleint---" filter="true" optionLabel="fullName" optionValue="id" name="selectedPerson1"></p-dropdown>
+                    </div>
+
+                    <!-- <select class="form-select" [ngModel]="contrat?.driverOne?.id"  (change)="getclient1(clnt.value)" name="nomEtPrenom"
+                      id="">
+                      <option selected disabled value="">Sélect premier conducteur</option>
+                      <option *ngFor="let client1 of clients" value="{{ client1?.id }}">
+                        {{ client1?.nom }} {{ client1?.prenom }}
+                      </option>
+                    </select> -->
+                  </div>
+                  <div [hidden]="!hideSelect" class="form-group">
+                    <label for="" class="mt-2 form-label">Nom / Last Name</label>
+                    <input required type="text" [ngModel]="client?.nom" disabled name="nom" class="form-control" />
+                  </div>
+
+                  <div [hidden]="!hideSelect" class="form-group">
+                    <label for="" class="mt-2 form-label">Prénom / First Name</label>
+                    <input type="text" [ngModel]="client?.prenom" disabled name="prenom" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Date de naissance</label>
+                    <input type="text" value="{{ client?.dateDeNaissance | date: 'dd/MM/yyyy' }}" disabled
+                      name="dateDeNaissance" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Telephone / Phone N°</label>
+                    <input type="text" [ngModel]="client?.tel" disabled name="tel" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Adress</label>
+
+                    <textarea [ngModel]="client?.address" disabled name="adress" class="form-control" id="" cols="30"
+                      rows="3"></textarea>
+                  </div>
+
+                  <div></div>
+                </div>
+              </div>
+
+              <!-- CIN-->
+              <div>
+                <div class="card-header">
+                  <b><i class="fas fa-address-card"></i> Cin</b>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <div class="row">
+                      <div class="form-group col">
+                        <label for="" class="form-label">C.I.N ou passeport N°</label>
+                        <input type="text" required minlength="4" [ngModel]="client?.cin?.cinId" readonly name="cinId" class="form-control" />
+                      </div>
+
+                      <div class="form-group col">
+                        <label for="" class="form-label">Valable jusqu'au :</label>
+                        <input type="text" value="{{
+                            client?.cin?.valableJusqa | date: 'dd/MM/yyyy'
+                          }}" disabled name="valableJusqa" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- permis-->
+              <div>
+                <div class="card-header">
+                  <b><i class="fas fa-id-card-alt"></i> Permis</b>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <div class="row">
+                      <div class="col form-group">
+                        <label for="" class="form-label">Permis de conduire N°</label>
+                        <input type="text" readonly required  [ngModel]="client?.permis?.permisId"  name="permiId"
+                          class="form-control" />
+                      </div>
+
+                      <div class="col form-group">
+                        <label for="" class="mt-2">Valable jusqu'au :</label>
+                        <input type="text" value="{{
+                            client?.permis?.valableJusqa | date: 'dd/MM/yyyy'
+                          }}" disabled name="valableJusqa" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+            <mat-tab *ngIf="!isClient" label="Société">
+              <div class="container">
+                <div [hidden]="hideSelect">
+                  <label for="exampleInputEmail1" class="form-label"><i class="fas fa-building"></i> Sociéte</label>
+                  <select  [ngModel]="enterprise?.id" name="enterpriseprenom" #enter (change)="getSelecterEnterprise(enter.value)" class="form-select"  id="">
+                    <option *ngFor="let enterprise of enterprises" value="{{enterprise?.id}}">{{enterprise?.prenom}}</option>                    
+                  </select>
+                </div>
+                
+                <div [hidden]="!hideSelect" class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label"><i class="fas fa-building"></i> Sociéte</label>
+                  <input readonly required [ngModel]="enterprise?.prenom" name="prenom" type="text" class="form-control" id="">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label"><i class="fas fa-map-marker-alt"></i>  Adresse</label>
+                  <input readonly type="text" [ngModel]="enterprise?.address" name="address" class="form-control" id="" >
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label"><i class="fas fa-phone-alt"></i> Tel</label>
+                  <input readonly type="tel" [ngModel]="enterprise?.tel" name="tel" class="form-control" id="" >
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label"><i class="fas fa-stamp"></i> ICE</label>
+                  <input readonly  type="tel" [ngModel]="enterprise?.ice" name="ice" class="form-control" id="" >
+                </div>
+              </div>
+              
+            </mat-tab>
+            <mat-tab label="Conducteur N°2">
+              <div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="" class="form-label">Nom Et Prenom</label>
+                    <div class="d-block">
+                      <p-dropdown class="d-block" [showClear]="true" [options]="clientsForSelect" (onChange)="getclient2(selectedPerson2)" [(ngModel)]="selectedPerson2" placeholder="---Select Cleint 2---" filter="true" optionLabel="fullName" optionValue="id" name="selectedPerson2"></p-dropdown>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Date de naissance</label>
+                    <input type="text" value="{{ clnt2?.dateDeNaissance | date: 'dd/MM/yyyy' }}" disabled
+                      name="clnt2dateDeNaissance" class="form-control" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Telephone / Phone N°</label>
+                    <input type="text" [ngModel]="clnt2?.tel" disabled name="clnt2tel" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Adress</label>
+
+                    <textarea [ngModel]="clnt2?.address" disabled name="clnt2adress" class="form-control" id=""
+                      cols="30" rows="3"></textarea>
+                  </div>
+
+                  <div></div>
+                </div>
+              </div>
+
+              <!-- CIN-->
+              <div>
+                <div class="card-header">
+                  <b><i class="fas fa-address-card"></i> Cin</b>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <div class="row">
+                      <div class="form-group col">
+                        <label for="" class="form-label">C.I.N ou passeport N°</label>
+                        <input type="text" [ngModel]="clnt2?.cin.cinId" disabled name="clnt2cinId"
+                          class="form-control" />
+                      </div>
+
+                      <div class="form-group col">
+                        <label for="" class="form-label">Valable jusqu'au :</label>
+                        <input type="text" value="{{
+                            clnt2?.cin?.valableJusqa | date: 'dd/MM/yyyy'
+                          }}" disabled name="clnt2valableJusqa" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- permis-->
+              <div>
+                <div class="card-header">
+                  <b><i class="fas fa-id-card-alt"></i> Permis</b>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <div class="row">
+                      <div class="col form-group">
+                        <label for="" class="form-label">Permis de conduire N°</label>
+                        <input type="text" [ngModel]="clnt2?.permis?.permisId" disabled name="permiId2"
+                          class="form-control" />
+                      </div>
+
+                      <div class="col form-group">
+                        <label for="" class="mt-2">Valable jusqu'au :</label>
+                        <input type="text" value="{{
+                            clnt2?.permis?.valableJusqa | date: 'dd/MM/yyyy'
+                          }}" disabled name="valableJusqa" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+
+      <div class="col">
+        <!-- Véhicule-->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <b><i class="fas fa-car"></i> Véhicule</b>
+            </div>
+            <div class="card-body">
+              <label for="matricule" class="form-label">N°Immat</label>
+              <div>
+                <select [ngModel]="contrat?.voiture?.id" (change)="getSelectedVoiture($event.target.value)" class="form-select" required name="matricule">
+                  <option disabled selected>Trouvé véhicule par N°Immat</option>
+                  <option *ngFor="let voiture of voitures" value="{{ voiture.id }}">
+                    {{ voiture?.matricule }}  ({{ voiture?.marque }} / {{ voiture?.model }}) <span *ngIf="!voiture?.active">(Indisponible)</span>
+                  </option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="text-center">
+                  <div class="form-group mt-4">
+                    <img *ngIf="voiture?.imageUrl != ''" style="border: solid black 1px" width="400" height="200"
+                      src="{{ voiture?.imageUrl }}" alt="" />
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Marque</label>
+                    <input type="text" [ngModel]="voiture?.marque" disabled name="marque" class="form-control" />
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Model</label>
+                    <input type="text" [ngModel]="voiture?.model" disabled name="model" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="form-group mt-4">
+                  <label for="" class="mt-2 form-label">Date de départ :</label>
+
+                  <div class="input-group">
+                    <input type="datetime-local" (change)="calculateDate(); calculateTotal()" [(ngModel)]="dateDepart"
+                    required name="dateDeDepart" class="form-control" />
+                    <span class="input-group-text"><i style="color: green ;"
+                        class="fas fa-caret-right fa-2x"></i></span>
+                  </div>
+                </div>
+
+                <div class="form-group" style="width: 40%; margin: 0 auto; text-align: center">
+                  <label for="" class="mt-2 form-label"></label>
+                  <input placeholder="nombre des jour" autocomplete="off" type="number" #numDay
+                    (ngModelChange)="addDayToDate(numDay.value)" (change)="calculateTotal()" [(ngModel)]="numberOfDays"
+                    name="nomberDesJour" class="form-control" />
+                </div>
+
+                <div>
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Date de retour :</label>
+                    <div class="input-group">
+                      <span class="input-group-text"><i style="color: red ;" class="fas fa-caret-left fa-2x"></i></span>
+                      <input type="datetime-local" (change)="calculateDate(); calculateTotal()" [(ngModel)]="dateRetour"
+                        name="dateDeRetour" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="form-group">
+                    <label for="" class="mt-2 form-label">Caution:</label>
+                    <div class="input-group">
+                      <input type="number" [(ngModel)]="caution" name="caution" class="form-control" />
+                      
+                    </div>
+                  </div>
+                  <div class="form-check mt-2">
+                    <input (change)="isPayer1($event.target.checked)" class="form-check-input" [checked]="contrat.payer"name="payer"  type="checkbox" id="defaultCheck1">
+                    <label class="form-check-label" for="defaultCheck1">
+                      Payeé
+                    </label>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Paiment-->
+        <div class="card">
+          <div>
+            <div class="card-header">
+              <b><i class="fas fa-money-check-alt"></i> Paiment</b>
+            </div>
+            <div class="card-body">
+              <p style="text-align: center" class="fs-1 mt-3">
+                <b>Total : {{ total  }}</b>
+              </p>
+
+              <div class="form-group">
+                <label for="" class="form-label mt-3">Prix Par jour</label>
+                <input [(ngModel)]="voiture.tarif" (ngModelChange)="calculateTotal()" type="number" name="prix"
+                  class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="" class="form-label mt-3">Avance</label>
+                <input type="number" #avance1 [ngModel]="avance" (ngModelChange)="calculateReste(avance1.value)"
+                  name="avance" class="form-control" />
+              </div>
+
+              <p style="text-align: center; color: red" class="fs-1 mt-5">
+                <b>Reste : {{ reste}}</b>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT bottun-->
+        <div>
+          <div>
+            <div class="mt-3">
+              <button  id="submitcontrat" [disabled]=""  class="btn btn-lg btn-primary" role="button" type="submit"><i class="fas fa-check-circle"> </i> Valider</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   </div>
+  </form>
+  
+  
+</div>
+  <div>
+    <div>
+      
+  </div>
+</div>
+<div class="mt-5" *ngIf="loading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+
+
+<button [useExistingCss]="true" printSectionId="print-me" hidden ngxPrint id="printButton">
+  print to pdf
+</button>
+
+<!-- model impimier au anuler document  -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enregistrer la modification </h5>
+        <button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" (click)="nePasImprimer()" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-check-circle"> </i> Enregistrer sans imprimer</button>
+        <button type="button" (click)="imprimer()" data-bs-dismiss="modal" class="btn btn-primary"><i class="fas fa-print"></i> Imprimer et enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button hidden type="button" id="model_imprimer" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- end model imprimer au annuler -->
+
+<div style="padding-bottom: 300px"></div>
+<app-print-contrat hidden>
+</app-print-contrat>

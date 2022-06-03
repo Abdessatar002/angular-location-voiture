@@ -1,0 +1,183 @@
+<div class="container">
+    <div class="main-body">
+
+        <h1 class="text-center mt-4">Details client <small>{{client?.nom}} {{client?.prenom}}</small> </h1>
+        <mat-tab-group>
+           
+            <mat-tab label="Documents">
+                <div class="container">
+
+                
+                <h1 class="text-center text-muted mt-3">Documents associer a {{client?.nom}} {{client?.prenom}}</h1>
+                
+                <div>
+                    <Button type="button" (click)="openModalAddImage()" class="btn btn-success">
+                        <i class="fas fa-folder-plus"></i>
+                    </Button>
+                </div>
+                <div class="row flow-offset-1 d-flex justify-content-center mt-3">
+                    <div *ngFor="let doc of client?.clientDoc" class="col-md-4 " style="width: auto;">
+                        <div class="product tumbnail thumbnail-3"><a target="_blank" href="{{doc?.docUrl}}"><img src="{{doc?.docUrl}}" width="350px"
+                                    height="280px" alt=""></a>
+                                    <div>
+                                        
+                                        <h5 class="">{{doc?.name}} <br>
+
+                                            <small class="fw-light">Creé le {{doc.createdAt | date : 'M/d/yy, H:mm '}} </small>
+                                            
+                                        </h5>
+                                        
+                                         
+                                    </div>
+                            <div class="caption mb-3">
+                                <!--Button download and telecharger-->
+                                <button [hidden]="true" class="btn btn-secondary"><i class="fas fa-download"></i></button>
+
+
+                                <button (click)="OpenModelDelete(doc.id)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div *ngIf="client?.clientDoc?.length == 0"  class=" alert alert-secondary">Aucune fichier</div>
+
+            </div>
+            </mat-tab>
+
+            <mat-tab label="Contrats">
+                
+                        <div class="table-responsive">
+                            <table  style="text-align: center" class=" table table-sm table-bordered  pointer table-hover mt-2">
+                                <thead class="">
+                                    <tr>
+                                        <th>  N° Contrat</th>
+                                        <th> Créer le </th>
+                                        <th>Client</th>
+                                        <th>Matricule</th>
+                                        <th> Date Départ</th>
+                                        <th> Date Retoure</th>
+                                        <th> Dureé</th>
+                                        <th> prix J</th>
+                                        <th> Total</th>
+                                        <th> Avance</th>
+                                        <th>Reste</th>
+                                        <th> Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let cont of listContratByClientId">
+                                        <td >{{cont?.numContrat}}</td>
+                                        <td >{{cont?.dateCreated | date : 'dd/MM/yyyy'}}</td>
+                                        
+                                        <td >{{cont?.driverOne?.nom}} {{cont?.driverOne?.prenom}}</td>
+                                        <td >{{cont?.voiture?.matricule}}</td>
+
+                                        <td><i style="color: green;" class="fas fa-caret-up"></i> {{cont?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+                                        <td ><i style="color: red;" class="fas fa-caret-down"></i> {{cont?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+                                        <td >{{cont?.numDay}}</td>
+                                        <td >{{cont?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                        <td >{{cont?.numDay * contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                        <td >{{cont?.avance | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                        <td >{{cont?.numDay * cont?.tarif -cont?.avance | currency: " ":"symbol":"1.2-2":"fr" }} </td>
+                        
+                        
+                                        <td>
+                                            <button (click)="printedContrat(cont)"  class="btn btn-sm btn-outline-secondary">
+                                                <i class="fas fa-print"></i>
+                                            </button>
+                                            <button routerLink="/contrat/{{cont?.id}}"  class="btn btn-sm btn-outline-success">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button (click)="openModelDeleteContrat(cont?.id)" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                        
+                                        </td> 
+                                    </tr>
+                        
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="listContratByClientId.length == 0"  class="alert alert-danger">
+                             La list est vide
+                        </div>
+
+                   
+            </mat-tab>
+
+            
+        </mat-tab-group>
+
+
+    </div>
+</div>
+
+
+<!--Open modal ajouter Document-->
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Ajouter Document</h5>
+          <button type="button" id="closeModal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #uploadForm="ngForm" (ngSubmit)="uploadClientDoc(uploadForm)">
+                <div class="form-group">
+                    <label for="" class="mt-2 form-label">Nom de fichier</label>
+                    <input type="text" ngModel name="fileName"  class="form-control" />
+                    
+                </div>
+                <div class="form-group">
+                    <label for="" class="mt-2 form-label"></label>
+                    <input required type="file" #fileControler ngModel name="file" (change)="onDocChanege($event.target.files[0])"  class="form-control" />
+                </div>
+          <button type="submit" [hidden]="true" id="submitUploadForm"  class="btn btn-primary"></button>
+
+            </form>
+            
+        </div>
+        <div class="modal-footer">
+          <button (click)="submitUploadForm()" [disabled]="uploadForm.invalid" class="btn btn-primary">Ajouter la document</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--Open modal ajouter Document-->
+  <a class="btn btn-primary" id="openModalAddImage" [hidden]="true" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
+
+   <!-- Button trigger modal delete -->
+<button [hidden]="true" type="button" id="OpenModelDelete" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> </button>
+  
+<!-- Modal delete -->
+<div class="modal fade model-danger" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-3"  id="exampleModalLabel">suppression</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Supprimé la document ?
+      </div>
+      <div class="modal-footer">
+        <button type="button"  id="closeModeldelete" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" (click)="deleteDocument()" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+<app-print-contrat hidden>
+
+</app-print-contrat>
+
+
+

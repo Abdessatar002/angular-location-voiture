@@ -1,0 +1,93 @@
+<div class="container ">
+
+  <div class="_content">
+    <!-- <div>
+    <select  class="form-select" aria-label="Default select example">
+      <option disabled selected>Ordre par</option>
+      <option value="" >Default</option>
+      <option value="prenom">Société</option>
+      <option value="address">Adresse</option>
+      <option value="tel">Tél</option>
+      <option value="ice">ICE</option>
+    </select>
+    </div> -->
+    <div class="">
+      <input type="text" name="" id="" class="form-control mx-1 " placeholder="Search..." (keyup)="selectPageOne()" [(ngModel)]="searchValue">
+    </div>
+      
+  </div>
+  
+  
+    <div class="table-responsive">
+      <table style="text-align: center" class=" table table-sm table-bordered  pointer table-hover mt-2">
+        <thead class="">
+          <tr>
+            <th>N° Facture</th>
+            <th>Créer le </th>
+            <th>N° Contrat</th>
+            <th> Client</th>
+            <th> Matricule</th>
+            <th> Date Départ</th>
+            <th> Date Retoure</th>
+            <th> Dureé</th>
+            <th> Prix J</th>
+            <th> Total</th>
+            <th> Actions</th>
+          </tr>
+        </thead>
+         <tbody> 
+          <tr *ngFor="let facture of factures | factureFilter : searchValue | paginate: { itemsPerPage:_itemsPerPage , currentPage: _currentPage}">
+              <td>{{facture?.id}}</td>
+              <td>{{facture?.createdAt}}</td>
+              <td>{{facture?.contrat?.numContrat}}</td>
+            <td>{{facture?.contrat?.driverOne.nom}} {{facture?.contrat?.driverOne.prenom}}</td>
+            <td>{{facture?.contrat?.voiture.matricule}}</td>
+            <td>{{facture?.contrat?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+            <td>{{facture?.contrat?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+            <td>{{facture?.contrat?.numDay}}</td>
+            <td>{{facture?.contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+            <td>{{facture?.contrat?.numDay * facture?.contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+
+            <td>
+              <button (click)="getPrentedFacture(facture)" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-print"></i>
+              </button>
+              <button routerLink="/contrat/{{facture?.contrat?.id}}" class="btn btn-sm btn-outline-success">
+                <i class="fas fa-edit"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="!(factures | factureFilter: searchValue)?.length">
+            <td colspan="14">
+                <p class="alert alert-danger">Aucun contrat trouvé</p>
+            </td>
+        </tr>
+  
+        </tbody> 
+      </table>
+    </div>
+    <div *ngIf="factures?.length == 0" class="alert alert-danger">
+      La list est vide
+    </div>
+    <div class="container pagination">
+      <div>
+        <pagination-controls (pageChange)="_currentPage = $event">
+        
+        </pagination-controls>
+      </div>    
+      <div class="mx-3">
+        Page size :
+        <select (change)="changePageSize($event.target.value)" class="mx-2">
+          <option selected value="10">10</option>
+          <option value="25" >25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      
+    </div>
+  </div>
+
+  <app-printed-facture hidden>
+      
+  </app-printed-facture>

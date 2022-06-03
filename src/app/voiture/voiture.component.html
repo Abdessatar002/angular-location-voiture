@@ -1,0 +1,350 @@
+<div class="container">
+    <div class="row mb-b2 mt-2 text-center">
+        <div class="col">
+            <h4>Espace Voiture.</h4>
+        </div>
+    </div>
+
+    <nav class="navbar bar navbar-expand breadcrumb">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="nav nav-pills">
+                <a class="nav-item nav-link active ml-1" id="voitures" data-bs-toggle="tab" href="#voiture">
+                    <i class="fa fa-cars"></i>
+                    Voiture
+                </a>
+                <a class="nav-item nav-link ml-3" data-bs-toggle="tab" href="#ajouter">
+                    <i class="fa fa-plus"></i>
+                    Ajouter
+                </a>
+                
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="tab-content mt-3" id="myTabContent">
+
+            <div class="tab-pane fade show active" id="voiture">
+                
+                
+                <div class="_content">
+                    <div>
+                    <select  (change)="sortedVoitureList($event.target.value)"  class="form-select" aria-label="Default select example">
+                      <option disabled selected>Ordre par</option>
+                      <option value="" >Default</option>
+                      <option value="matricule">matricule</option>
+                      <option value="marque">marque</option>
+                      <option value="model">model</option>
+                      <option value="carburant">carburant</option>
+                      <option value="caution">caution</option>
+                      <option value="tarif">tarif</option>
+                      <option value="gearbox">gearbox</option>
+                    </select>
+                    </div>
+                    <div class="">
+                      <input type="search" name="" id="" class="form-control mx-1 " placeholder="Search..." (keyup)="selectPageOne()" [(ngModel)]="searchValue">
+                    </div>
+                      
+                  </div>
+<div class="table-responsive">
+    <table class=" table table-sm text-center  pointer table-hover mt-2 text-capitalize">
+        <thead class="">
+            <tr>
+                <th>Image</th>
+                <th>Matricule </th>
+                <th> Marque</th>
+                <th> Model</th>
+                <th> Carburant</th>
+                <th>Nbr Palce</th>
+                <th>Couleur</th>
+                <th>Tarif</th>
+                <th>Dispo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let voiture of listVoiture | voitureFilter : searchValue | paginate: { itemsPerPage:_itemsPerPage , currentPage: _currentPage}">
+                <td *ngIf="voiture?.imageUrl">
+                    <img src="{{voiture?.imageUrl}}" height="45" width="55" alt="">
+                </td>
+                <td *ngIf="!voiture?.imageUrl">
+                    <img src="assets\voiture\voitureplaceholder.jpg" height="45" width="55" alt="">
+                </td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.matricule}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.marque}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.model}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.carburant}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.numPlace}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.couleur}}</td>
+                <td (dblclick)="onEditButton(voiture)">{{voiture?.tarif}}</td>
+                <td (dblclick)="onEditButton(voiture)">
+                    <span [hidden]="!voiture?.active" class="badge bg-success">Disponible</span>
+                     <span [hidden]="voiture?.active" class="badge bg-danger">Indisponible</span>
+                </td>
+                <td (dblclick)="onEditButton(voiture)">
+                    <button routerLink="/voiture/{{voiture.id}}" class="btn btn-outline-info btn-sm">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <!-- <button (click)="onEditButton(voiture)" class="btn btn-outline-success"><i
+                            class="fas fa-edit"></i></button> -->
+                            
+                    <button (click)="onDeleteButton(voiture)" class="btn btn-outline-danger btn-sm"><i
+                            class="fas fa-trash"></i>
+                        </button>
+                </td>
+                
+                
+            </tr>
+            <tr *ngIf="!(listVoiture | voitureFilter: searchValue)?.length">
+
+                <td colspan="10">
+                    <p class="alert alert-danger">Aucun véhicule trouvé</p>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    
+
+</div>
+<div class="container pagination">
+    <div>
+      <pagination-controls (pageChange)="_currentPage = $event">
+      
+      </pagination-controls>
+    </div>    
+    <div class="mx-3">
+      Page size :
+      <select (change)="changePageSize($event.target.value)" class="mx-2">
+        <option selected value="10">10</option>
+        <option value="25" >25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    
+  </div>
+            </div>
+
+            <app-add-voiture class="tab-pane fade" id="ajouter"></app-add-voiture>
+        </div>
+    </div>
+
+
+
+    <!-- Button trigger modal edit client -->
+    <button [hidden]="true" id="bottunEditVoiture" type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#editclient"></button>
+
+    <!-- Modal edit client -->
+    <div class="modal fade" id="editclient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header  ">
+                    <h5 class="modal-title fs-3"><b>{{editVoiture.matricule}} </b> <small>{{editVoiture.model}}</small></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form #editForm="ngForm" (ngSubmit)="onEditVoiture(editForm)" action="">
+                    <div class="modal-body">
+                        <div class="form-check form-switch">
+                            <input [(ngModel)]="editVoiture.active" name="active" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Disponibilité</label>
+                          </div>
+                        <div class="form-group">
+                            <label class="form-label" for="">Matricule</label>
+                            <input [(ngModel)]="editVoiture.matricule" class="form-control" name="matricule"
+                                type="text">
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Marque</label>
+                                    <input [(ngModel)]="editVoiture.marque" class="form-control" name="marque"
+                                        type="text">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Model</label>
+                                    <input class="form-control" [(ngModel)]="editVoiture.model" name="model" list="models" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Carburant</label>
+
+                                    <select autocomplete="off" class="form-select" [(ngModel)]="editVoiture.carburant" name="carburant"
+                                        id="">
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="Essance">Essance</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Couleur</label>
+                                    <input [(ngModel)]="editVoiture.couleur" class="form-control" name="couleur"
+                                        list="colorList">
+                                    <datalist id="colorList">
+                                        <option value="Blanc"></option>
+                                        <option value="Bleu"></option>
+                                        <option value="Rouge"></option>
+                                        <option value="Jaune"></option>
+                                        <option value="Vert"></option>
+                                        <option value="Orange"></option>
+                                        <option value="Marron"></option>
+                                        <option value="Rose"></option>
+                                        <option value="Noir"></option>
+                                        <option value="gris"></option>
+                                        <option value="Violet"></option>
+                                    </datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label class="form-label" for="">Num Chassis</label>
+                            <input [(ngModel)]="editVoiture.numChassis" class="form-control" name="numChassis"
+                                type="text">
+                        </div>
+                        <div class="row mt-2">
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Caution</label>
+                                    <div class="input-group">
+                                        
+                                        <input autocomplete="off" [(ngModel)]="editVoiture.caution" class="form-control" name="caution"
+                                            type="number">
+                                            <span class="input-group-text">DH</span>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Tarif</label>
+                                    <div class="input-group">
+                                        
+                                        <input autocomplete="off" [(ngModel)]="editVoiture.tarif" class="form-control" name="tarif"
+                                            type="number">
+                                            <span class="input-group-text">DH</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="" class="form-label">Boite de vitesses</label>
+                                    <select name="gearbox" id="" class="form-select" [(ngModel)]="editVoiture.gearbox">
+                                        <option value="manuelle">Manuelle</option>
+                                        <option value="automatique">Automatique</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="form-label" for="">Numbre de place</label>
+                                    <input type="number" [(ngModel)]="editVoiture.numPlace" class="form-control" name="numPlace">
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <div>
+                                    <div class="">
+                                        <label for="" class="mt-2 form-label">Assurance valable jusqu'au :</label>
+                                        <input type="date" class="form-control" [(ngModel)]="editVoiture.assurance"  name="assurance" id="">
+
+                                    </div>
+                                    <div class="">
+                                        <label for="" class="mt-2 form-label">Visite jusqu'au :</label>                                   
+                                        <input type="date" class="form-control" [(ngModel)]="editVoiture.visiteTechnique"  name="visiteTechnique" id="">
+                                    </div>
+                                    <div class="">
+                                        <label for="" class="mt-2 form-label">Vignette valable jusqu'au :</label>
+                                        
+                                        <input type="date" class="form-control" [(ngModel)]="editVoiture.taxe"  name="taxe" id="">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <label for="" class="mt-2 form-label">Image de la voiture :</label>
+
+                                    <img *ngIf="imageUrlString" width="220" height="200"
+                                        [src]="imageUrlString"
+                                        alt="">
+                                    <input (change)="handleImageInput($event.target.files[0])" class="form-control" type="file" accept="image/**">
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <button style="display: none;" id="submitEditVoitureForm" type="submit" class="btn btn-primary">Save
+                        changes</button>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="closeModelEditVoiture" (click)="closeEditeVoiture()" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" id="editeclientmodel" [disabled]="editForm.invalid"
+                        class="btn btn-primary" (click)="submitEditVoitureForm()">Valider</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Button trigger modal delete -->
+    <button [hidden]="true" type="button" id="OpenModelDelete" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#exampleModal"> </button>
+
+    <!-- Modal delete -->
+    <div class="modal fade model-danger" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-3" id="exampleModalLabel">suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+        <span class="badge bg-danger">ATTENTION !</span>  <span> Tous les contrats et documents associés à {{deletedVoiture?.matricule}} seront supprimés !</span>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeModeldelete" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" (click)="deleteVoiture()" class="btn btn-danger">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end container-->
+    
+</div>
+
+
+  
+
+
+    
+    
+    
+ 

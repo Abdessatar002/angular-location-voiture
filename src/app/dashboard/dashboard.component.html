@@ -1,0 +1,397 @@
+
+
+<div class="container">
+  <div div class="mt-3" style="display: flex; justify-content: flex-end;">
+    <div class="mx-1" *ngIf="totalVisiteBefore">
+      <button type="button" (click)="visiteBeforeExpire()" data-bs-toggle="modal" data-bs-target="#before-expire" class="btn btn-primary position-relative">
+        Visite technique
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{totalVisiteBefore}}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+    </div>
+    <div class="mx-1" *ngIf="totalAssuranceBefore">
+      <button type="button" class="btn btn-primary position-relative" (click)="assuranceBeforeExpire()" data-bs-toggle="modal" data-bs-target="#before-expire">
+        Assurance
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{totalAssuranceBefore}}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="mx-1" *ngIf="totalTaxeBefore">
+      <a type="button" (click)="taxeBeforeExpire()" data-bs-toggle="modal" data-bs-target="#before-expire" class="btn btn-primary position-relative">
+        vignette
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{totalTaxeBefore}}
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </a>
+    </div>
+    
+    
+    
+  </div>
+  
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-primary">
+                <div class="inner">
+                    <h3> {{clientList?.length}} </h3>
+                    <p> Clients particulier </p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+                <a routerLink="/client" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-blue">
+                <div class="inner">
+                    <h3> {{enterpriseList?.length}} </h3>
+                    <p> Sociétés </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <a routerLink="/entreprise" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-orange">
+                <div class="inner">
+                    <h3> {{voitureList.length}} </h3>
+                    <p> Parc </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-parking"></i>
+                </div>
+                <a routerLink="/voiture" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-secondary">
+                <div class="inner">
+                    <h3> {{contratList.length}} </h3>
+                    <p> De retour aujourd'hui </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-arrow-circle-down"></i>
+                </div>
+                <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>  
+    </div>
+    <div class="_content row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-green">
+                <div class="inner">
+                    <h3> {{voitureDisponibleList?.length}} </h3>
+                    <p> Véhicules disponibles </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <a type="button" data-bs-toggle="modal" data-bs-target="#voituredisponible" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card-box bg-red">
+                <div class="inner">
+                    <h3> {{contratsEnCours?.length}} </h3>
+                    <p> Contrats en cours </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-arrow-circle-up"></i>
+                </div>
+                <a type="button" data-bs-toggle="modal" data-bs-target="#enlocation" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container card">
+        <canvas width="100%" height="35px" id="myChart" class="card-body"></canvas>
+    </div>
+    
+    <div style="padding-bottom: 30px;">
+
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal De retour aujourd'hui -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">De retour aujourd'hui</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style='font-size:80%;width: 100%;' class="table-responsive">
+                
+                <table  class=" table table-sm table-bordered  pointer table-hover mt-2 ">
+                  <thead class="">
+                    <tr>
+                      <th>  N° Contrat</th>
+                      <th> Marque</th>
+                      <th> Modele</th>
+                      <th> Matricule</th>
+                      <th>Client</th>
+                      <th>Tel</th>
+                      <th> Date Départ</th>
+                      <th> Date Retoure</th>
+                      <th>Dureé</th>
+                      <th> Total</th>
+                      <th> Avance</th>
+                      <th> Reste</th>
+                      <th> Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let contrat of contratList">
+                      <td>{{contrat?.numContrat}}</td>
+                      <td>{{contrat?.voiture.marque}}</td>
+                      <td>{{contrat?.voiture.model}}</td>
+                      <td>{{contrat?.voiture.matricule}}</td>
+                      <td>{{contrat?.driverOne.nom}} {{contrat?.driverOne.prenom}}</td>
+                      <td>{{contrat?.driverOne.tel}}</td>
+                      <td>{{contrat?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+                      <td>{{contrat?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+                      <td>{{contrat?.numDay}}</td>
+                      <td>{{contrat?.numDay * contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                      <td>{{contrat?.avance }}</td>
+                      <td>{{contrat?.numDay * contrat?.tarif -contrat?.avance | currency: " ":"symbol":"1.2-2":"fr" }} </td>
+            
+            
+                      <td>
+                        <button (click)="printSelectedContrat(contrat)" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-print"></i>
+                        </button>
+                        <button data-bs-dismiss="modal" routerLink="/contrat/{{contrat.id}}" class="btn btn-sm btn-outline-success">
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <!-- <button (click)="openModelDeleteContrat(contrat?.id)" class="btn btn-sm btn-outline-danger">
+                          <i class="fas fa-trash"></i>
+                        </button> -->
+            
+                      </td>
+                    </tr>
+                    
+            
+                  </tbody>
+                </table>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Voiture disponible -->
+  <div class="modal fade" id="voituredisponible" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Véhicule disponibles</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style='font-size:80%;width: 100%;' class="table-responsive">
+                <table class=" table table-sm text-center  pointer table-hover text-capitalize">
+                    <thead class="">
+                        <tr>
+                            <th>Image</th>
+                            <th>Matricule </th>
+                            <th> Marque</th>
+                            <th> Model</th>
+                            <th> Carburant</th>
+                            <th>Nbr Palce</th>
+                            <th>Couleur</th>
+                            <th>Tarif</th>
+                            <th>Caution</th>
+                            <th>Dispo</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let voiture of voitureDisponibleList ">
+                            <td >
+                                <img src="{{voiture?.imageUrl}}" height="40" width="40" alt="">
+                            </td>
+                            <td>{{voiture?.matricule}}</td>
+                            <td>{{voiture?.marque}}</td>
+                            <td>{{voiture?.model}}</td>
+                            <td>{{voiture?.carburant}}</td>
+                            <td>{{voiture?.numPlace}}</td>
+                            <td>{{voiture?.couleur}}</td>
+                            <td>{{voiture?.tarif}}</td>
+                            <td>{{voiture?.caution}}</td>
+                            <td>
+                                <span [hidden]="!voiture?.active" class="badge bg-success">Disponible</span>
+                                 <span [hidden]="voiture?.active" class="badge bg-danger">Indisponible</span>
+                            </td>
+                            <td>
+                                <button data-bs-dismiss="modal" routerLink="/voiture/{{voiture.id}}" class="btn btn-outline-info btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <!-- <button (click)="onEditButton(voiture)" class="btn btn-outline-success"><i
+                                        class="fas fa-edit"></i></button> -->
+                                        
+                                <!-- <button (click)="onDeleteButton(voiture)" class="btn btn-outline-danger btn-sm"><i
+                                        class="fas fa-trash"></i>
+                                    </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+            
+                </table>
+                
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Modal Voiture En Location -->
+  <div class="modal fade" id="enlocation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Véhicules En location</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style='font-size:80%;width: 100%;' class="table-responsive">
+              <table  class=" table table-sm table-bordered  pointer table-hover mt-2 ">
+                <thead class="">
+                  <tr>
+                    <th>  N° Contrat</th>
+                    <th> Marque</th>
+                    <th> Modele</th>
+                    <th> Matricule</th>
+                    <th>Client</th>
+                    <th> Date Départ</th>
+                    <th> Date Retoure</th>
+                    <th>Dureé</th>
+                    <th> prix J</th>
+                    <th> Total</th>
+                    <th> Avance</th>
+                    <th> Reste</th>
+                    <th> Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let contrat of contratsEnCours">
+                    <td>{{contrat?.numContrat}}</td>
+                    <td>{{contrat?.voiture.marque}}</td>
+                    <td>{{contrat?.voiture.model}}</td>
+                    <td>{{contrat?.voiture.matricule}}</td>
+                    <td>{{contrat?.driverOne.nom}} {{contrat?.driverOne.prenom}}</td>
+                    <td><i style="color: green;" class="fas fa-caret-up"></i> {{contrat?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+                    <td><i style="color: red;" class="fas fa-caret-down"></i> {{contrat?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{contrat?.numDay}}</td>
+                    <td>{{contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                    <td>{{contrat?.numDay * contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                    <td>{{contrat?.avance }}</td>
+                    <td>{{contrat?.numDay * contrat?.tarif -contrat?.avance | currency: " ":"symbol":"1.2-2":"fr" }} </td>
+          
+          
+                    <td >
+                      <button style="font-size: 80%;" (click)="printSelectedContrat(contrat)" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-print"></i>
+                      </button>
+                      <button style="font-size: 80%;" data-bs-dismiss="modal" routerLink="/contrat/{{contrat.id}}" class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                    </td>
+                  </tr>
+          
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="contratsEnCours.length == 0" class="alert alert-danger">
+              La list est vide
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Voiture En Location -->
+  <div class="modal fade" id="before-expire" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Document peut expirer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div style='width: 100%;' class="table-responsive">
+                <table class=" table text-center  pointer table-hover text-capitalize">
+                    <thead class="">
+                        <tr>
+                            <th>Image</th>
+                            <th>Matricule </th>
+                            <th> Marque</th>
+                            <th> Model</th>
+                            <th> Carburant</th>
+                            <th>Visite tech Exp</th>
+                            <th>Assurance Exp</th>
+                            <th>Vignette Exp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let voiture of beforeExpireList ">
+                            <td >
+                                <img src="{{voiture?.imageUrl}}" height="40" width="40" alt="">
+                            </td>
+                            <td>{{voiture?.matricule}}</td>
+                            <td>{{voiture?.marque}}</td>
+                            <td>{{voiture?.model}}</td>
+                            <td>{{voiture?.carburant}}</td>
+                            <td>{{voiture?.visiteTechnique | date:'dd/MM/yyyy'}}</td>
+                            <td>{{voiture?.assurance | date:'dd/MM/yyyy'}}</td>
+                            <td>{{voiture?.taxe | date:'dd/MM/yyyy'}}</td>
+                            
+                        </tr>
+                    </tbody>
+            
+                </table>
+                
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+  <app-print-contrat hidden>
+</app-print-contrat>
+
+

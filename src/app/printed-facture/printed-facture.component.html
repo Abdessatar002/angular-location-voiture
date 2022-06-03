@@ -1,0 +1,251 @@
+<button [useExistingCss]="true"   printSectionId="print-facture" printTitle="{{title}}"  ngxPrint id="print-fac">
+    print to pdf
+  </button>
+  
+
+  <div class="container " id="print-facture">
+    <div style="width: 285mm; min-height: 100vh; font-weight: bold;" >
+    <div class="mb-1">
+        <img src="../assets/img/scenario entite.jpeg" alt="" width="100%" height="155px" />
+    </div>
+
+    
+    
+
+<div class="page-content " style="margin-top: 10%;">
+<div style="height: 10px;"></div>
+    <div class="page-header text-blue-d2 m-5">
+        <h1 class="page-title text-secondary-d1">
+            Facture
+            <small class="page-info">
+                <i class="fa fa-angle-double-right text-80"></i>
+                ID: {{facture?.id}}
+            </small>
+        </h1>
+    </div>
+
+    <div style="margin: 20px;" class="px-0 position-relative">
+        <div class="row mt-4 ">
+                
+                <!-- .row -->
+
+                <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <span class="text-sm text-grey-m2 align-middle">Client: </span>
+                            <span class="text-600 text-110 text-blue align-middle"><span *ngIf="facture?.contrat?.driverOne?.nom">{{facture?.contrat?.driverOne?.nom}} </span>{{facture?.contrat?.driverOne?.prenom}}</span>
+                        </div>
+                        <div class="text-grey-m2">
+                            <div class="my-1">
+                               Adresse: {{facture?.contrat?.driverOne?.address}}
+                            </div>
+                            
+                            <div class="my-1">
+                               <span *ngIf="facture?.contrat?.driverOne?.ice" >ICE: {{facture?.contrat?.driverOne?.ice}}</span>   
+                            </div>
+                            <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600"> {{facture?.contrat?.driverOne?.tel}}</b></div>
+
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                    <div class="text-95 col align-self-start d-sm-flex justify-content-end">
+                        <div class="text-grey-m2">
+                            <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                Facture
+                            </div>
+
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90"> N°:</span> {{facture?.id}}</div>
+
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90"> Date de création:</span> {{facture?.createdAt | date : 'dd/MM/yyyy'}}</div>
+
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+
+                <div class="mt-4">
+                    <!-- <div class="row text-600 text-white bgc-default-tp1 py-25">
+                        <div class="d-none d-sm-block col-1">#</div>
+                        <div class="col-9 col-sm-5">Description</div>
+                        <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
+                        <div class="d-none d-sm-block col-sm-2">Unit Price</div>
+                        <div class="col-2">Amount</div>
+                    </div>
+
+                    <div class="text-95 text-secondary-d3">
+                        <div class="row mb-2 mb-sm-0 py-25">
+                            <div class="d-none d-sm-block col-1">1</div>
+                            <div class="col-9 col-sm-5">Domain registration</div>
+                            <div class="d-none d-sm-block col-2">2</div>
+                            <div class="d-none d-sm-block col-2 text-95">$10</div>
+                            <div class="col-2 text-secondary-d2">$20</div>
+                        </div>
+
+                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                            <div class="d-none d-sm-block col-1">2</div>
+                            <div class="col-9 col-sm-5">Web hosting</div>
+                            <div class="d-none d-sm-block col-2">1</div>
+                            <div class="d-none d-sm-block col-2 text-95">$15</div>
+                            <div class="col-2 text-secondary-d2">$15</div>
+                        </div>
+
+                        <div class="row mb-2 mb-sm-0 py-25">
+                            <div class="d-none d-sm-block col-1">3</div>
+                            <div class="col-9 col-sm-5">Software development</div>
+                            <div class="d-none d-sm-block col-2">--</div>
+                            <div class="d-none d-sm-block col-2 text-95">$1,000</div>
+                            <div class="col-2 text-secondary-d2">$1,000</div>
+                        </div>
+
+                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                            <div class="d-none d-sm-block col-1">4</div>
+                            <div class="col-9 col-sm-5">Consulting</div>
+                            <div class="d-none d-sm-block col-2">1 Year</div>
+                            <div class="d-none d-sm-block col-2 text-95">$500</div>
+                            <div class="col-2 text-secondary-d2">$500</div>
+                        </div>
+                    </div>
+
+                    <div class="row border-b-2 brc-default-l2"></div> -->
+
+                    <!-- or use a table instead -->
+                    
+            <div class="table-responsive">
+                <table class="table  table-borderless border-0 border-b-2 brc-default-l1">
+                    <thead class="bg-none bgc-default-tp1">
+                        <tr class="text-white">
+                            <th class="opacity-2">#</th>
+                            <th>Désignation</th>
+                            <th>Période</th>
+                            <th>Nub Des jours</th>
+                            <th>Prix unitaire HT</th>
+                            <th width="140">Prix total HT</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-95 text-secondary-d3">
+                        
+                        <tr class="table-light">
+                            <td>1</td>
+                            <td>{{facture?.contrat?.voiture?.marque + "-"+facture?.contrat?.voiture?.model+ " / "+facture?.contrat?.voiture?.carburant}} / {{facture?.contrat?.voiture?.gearbox}}</td>
+                            <td>
+                                Du {{facture?.contrat?.dateDepart | date : 'dd/MM/yyyy' }} <br>A <span> </span>{{facture?.contrat?.dateRetour | date : 'dd/MM/yyyy' }}
+                            </td>
+                            <td class="text-95">{{facture?.contrat?.numDay}}</td>
+                            <td class="text-secondary-d2">{{(facture?.contrat?.tarif/1.2) | currency: "Dhs":"symbol":"1.2-2":"fr"}}</td>
+                            <td>{{(facture?.contrat?.numDay * facture?.contrat?.tarif)/1.2 | currency: "Dhs":"symbol":"1.2-2":"fr"}}</td>
+                        </tr> 
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td ></td>
+                            <td class="mb-4 text-right">
+                                <hr>
+                                    Total Hors Taxe  
+                                
+                            </td>
+                            <td>
+                                <hr>
+                                <span class="text-120 text-secondary-d1 text-left">{{((facture?.contrat?.numDay * facture?.contrat?.tarif)/1.2) | currency: "Dhs":"symbol":"1.2-2":"fr"}}</span>
+
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="mb-4 text-right">
+                            
+                                TVA à 20%  
+                                
+                            </td>
+                            <td>
+                                 <span class="text-120 text-secondary-d1 text-left">{{((facture?.contrat?.numDay * facture?.contrat?.tarif)/1.2)/100*20 | currency: "Dhs":"symbol":"1.2-2":"fr"}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="mb-4 text-right">
+                                <div class=" text-right">
+                                    Total TTC
+                                </div> 
+                                
+                            </td>
+                            <td>
+                                <span class="text-150 text-success-d3 opacity-2">{{facture?.contrat?.numDay * facture?.contrat?.tarif | currency: "Dhs":"symbol":"1.2-2":"fr"}}</span>
+
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+            
+
+                    
+
+                    <hr />
+                    <div class="pb-5">
+
+                    </div>
+
+                    <div >
+                        <span class=" text-105">Arrêtée la présente facture à la somme de  :</span>
+                        <span class="text-secondary-d1 text-105"> {{numberToLettre | titlecase }} Dhs  <span *ngIf="cts">et {{cts}} cts</span></span>
+                    </div>
+                </div>
+            
+        </div>
+<img class="position-absolute top-50 start-50 translate-middle mt-5" id="logo" src="../assets/img/scenario.png" alt="" width="100%" height="100%">
+
+    </div>
+</div>
+
+    
+</div>
+<footer style="position: sticky; top: 100%">
+    <div class="fotterp">
+        <div class="row">
+            <div class="col-3">
+                <h3 class="fotterh">ADRESSE</h3>
+                <p>
+                    Kasbat 372 N° 158 Rez De Chaussee Boulvard Ibnou Sina CASABLANCA
+                </p>
+            </div>
+            <div class="col-3">
+                <h3 class="fotterh">CONTACT</h3>
+                <div><i class="fas fa-phone-alt"></i> 06 02 88 62 05</div>
+                <div><i class="fas fa-phone-alt"></i> 06 61 48 12 55</div>
+                <div><i class="fas fa-envelope"> scenario1car@gmail.com</i></div>
+            </div>
+            <div class="col">
+                <h3 class="fotterh">SCENARIO CAR</h3>
+                <p>
+                    s.r.r.l a associé unique au capital de 100 000.00 Dhs. <br>
+                    patent : 34891708 - Fiscal : 24814778 - ICE : 001950108000042
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+  </div>
+
+  
+    

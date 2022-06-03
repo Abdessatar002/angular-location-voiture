@@ -1,0 +1,74 @@
+<div class="container">
+    <div  class="mt-4">
+        <h1>
+        Contart Associer A {{enterprise?.prenom}}
+            <hr width="auto">
+        </h1 >
+    </div>
+    <mat-tab-group>
+        <mat-tab label="Contarts">
+            <div class="table-responsive">
+                <table  style="text-align: center" class=" table table-sm table-bordered  pointer table-hover mt-2">
+                    <thead class="">
+                        <tr>
+                            <th> N° Contrat</th>
+                            <th> Créer le </th>
+                            <th>Client</th>
+                            <th>Matricule</th>
+                            <th> Date Départ</th>
+                            <th>  Date Retoure</th>
+                            <th> Dureé</th>
+                            <th> prix J</th>
+                            <th> Total</th>
+                            <th> Avance</th>
+                            <th>Reste</th>
+                            <th> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cont of listContratByClientId">
+                            <td >{{cont?.numContrat}}</td>
+                            <td >{{cont?.dateCreated | date : 'dd/MM/yyyy'}}</td>
+                            
+                            <td >{{cont?.driverOne?.nom}} {{cont?.driverOne?.prenom}}</td>
+                            <td >{{cont?.voiture?.matricule}}</td>
+            
+                            <td><i style="color: green;" class="fas fa-caret-up"></i> {{cont?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+                            <td ><i style="color: red;" class="fas fa-caret-down"></i> {{cont?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+                            <td >{{cont?.numDay}}</td>
+                            <td >{{cont?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                            <td >{{cont?.numDay * contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                            <td >{{cont?.avance | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                            <td >{{cont?.numDay * cont?.tarif -cont?.avance | currency: " ":"symbol":"1.2-2":"fr" }} </td>
+            
+            
+                            <td>
+                                <button (click)="printedContrat(cont)"  class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                                <button routerLink="/contrat/{{cont?.id}}"  class="btn btn-sm btn-outline-success">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <!-- <button (click)="openModelDeleteContrat(cont?.id)" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button> -->
+            
+                            </td> 
+                        </tr>
+            
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="listContratByClientId.length == 0"  class="alert alert-danger">
+                 La list est vide
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    
+    
+</div>
+
+<app-print-contrat hidden>
+
+</app-print-contrat>
+

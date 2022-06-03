@@ -1,0 +1,129 @@
+<div class="container ">
+  <div class="_content">
+    <!-- <div>
+    <select  class="form-select" aria-label="Default select example">
+      <option disabled selected>Ordre par</option>
+      <option value="" >Default</option>
+      <option value="prenom">Société</option>
+      <option value="address">Adresse</option>
+      <option value="tel">Tél</option>
+      <option value="ice">ICE</option>
+    </select>
+    </div> -->
+    <div class="">
+      <input type="text" name="" [(ngModel)]="searchValue" (keyup)="selectPageOne()" id="" class="form-control mx-1 " placeholder="Search..." >
+    </div>
+    <button class="mx-2" routerLink="/newcontrat" mat-stroked-button color="primary"><i class="fas fa-plus"></i> Ajouter</button>
+      
+  </div>
+
+
+  <div class="table-responsive">
+    <table  class=" table table-sm table-bordered  pointer table-hover mt-2 ">
+      <thead class="">
+        <tr>
+          <th>  N° Contrat</th>
+          <th>  Créer le </th>
+          <th> Marque</th>
+          <th> Modele</th>
+          <th> Matricule</th>
+          <th>Client</th>
+          <th> Date Départ</th>
+          <th> Date Retoure</th>
+          <th>Dureé</th>
+          <th> prix J</th>
+          <th> Total</th>
+          <th> Avance</th>
+          <th> Reste</th>
+          <th> Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contrat of contratList | contratFilter : searchValue| paginate: { itemsPerPage:_itemsPerPage , currentPage: _currentPage}">
+          <td>{{contrat?.numContrat}}</td>
+          <td>{{contrat?.dateCreated | date : 'dd/MM/yyyy'}}</td>
+          <td>{{contrat?.voiture.marque}}</td>
+          <td>{{contrat?.voiture.model}}</td>
+          <td>{{contrat?.voiture.matricule}}</td>
+          <td>{{contrat?.driverOne.nom}} {{contrat?.driverOne.prenom}}</td>
+          <td><i style="color: green;" class="fas fa-caret-up"></i> {{contrat?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+          <td><i style="color: red;" class="fas fa-caret-down"></i> {{contrat?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{contrat?.numDay}}</td>
+          <td>{{contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+          <td>{{contrat?.numDay * contrat?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+          <td>{{contrat?.avance }}</td>
+          <td>{{contrat?.numDay * contrat?.tarif -contrat?.avance | currency: " ":"symbol":"1.2-2":"fr" }} </td>
+
+
+          <td >
+            <button style="font-size: 80%;" (click)="printSelectedContrat(contrat)" class="btn btn-sm btn-outline-secondary">
+              <i class="fas fa-print"></i>
+            </button>
+            <button style="font-size: 80%;" routerLink="/contrat/{{contrat.id}}" class="btn btn-sm btn-outline-success">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button style="font-size: 80%;" (click)="openModelDeleteContrat(contrat?.id)" class="btn btn-sm btn-outline-danger">
+              <i class="fas fa-trash"></i>
+            </button>
+
+          </td>
+        </tr>
+        <tr *ngIf="!(contratList | contratFilter: searchValue)?.length">
+          <td colspan="14">
+              <p class="alert alert-danger">Aucun contrat trouvé</p>
+          </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div class="container pagination">
+    <div>
+      <pagination-controls (pageChange)="_currentPage = $event">
+      
+      </pagination-controls>
+    </div>    
+    <div class="mx-3">
+      Page size :
+      <select (change)="changePageSize($event.target.value)" class="mx-2">
+        <option selected value="10">10</option>
+        <option value="25" >25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    
+  </div>
+</div>
+
+<!-- model impimier au anuler document  -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Suppression </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="badge bg-danger">ATTENTION !</span>  <span> Voulez vous vrément supprimer ce contrat.</span>
+        
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-undo"></i>
+          Annuler</button>
+        <button type="button" (click)="deleteContra()" data-bs-dismiss="modal" class="btn btn-danger"><i
+            class="fas fa-trash-alt"></i> Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button style="display: none;" type="button" id="open_delete_econtrat" class="btn btn-primary" data-bs-toggle="modal"
+  data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<app-print-contrat hidden>
+</app-print-contrat>

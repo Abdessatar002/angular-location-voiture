@@ -1,0 +1,470 @@
+<button [useExistingCss]="true" hidden  printSectionId="print"  ngxPrint id="printButton1">
+    print to pdf
+  </button>
+  
+
+  <div class="container" id="print">
+    <div style="
+    width: 285mm;
+    min-height: 90vh;
+    text-transform: uppercase;
+    font-weight: bold;"
+    >
+    <div class="mb-1">
+        <img src="../assets/img/scenario entite.jpeg" alt="" width="100%" height="155px" />
+    </div>
+    <div class="main-body">
+        <div class="row">
+            <div class="col-7">
+                <div class="card mb-1" style="border: solid #25a8e0 2.5px;">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <h1 style="letter-spacing: 10px">contrat de location</h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- CARD enterprise -->
+                <div *ngIf="!hideEnterpriseCard" class="card mb-2" style="border: solid #25a8e0 2.5px;">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="../assets/img/client1.png" alt="" width="80" />
+                            </div>
+                            <br>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="fas fa-building"></i><b> Raison social : </b>
+                                        <span class="text-muted">{{contrat?.driverOne?.nom}} {{contrat?.driverOne?.prenom}}</span>
+                                    </div>
+                                </li>
+                                <br>
+
+                                <!-- <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-alt"></i><b> Date de naissance : </b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.dateDeNaissance | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li> -->
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="fas fa-phone"></i><b> Télephone : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.driverOne?.tel }}
+                                        </span>
+                                    </div>
+                                </li>
+                                <br>
+
+                                <li class="list-group-item">
+                                    <div class="two-ligne-text">
+                                        <i class="fas fa-map-marker-alt"></i><b> Adresse : </b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.address}}
+                                        </span>
+                                    </div>
+                                </li>
+                                <br>
+
+                                <!-- <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> CIN/Passport N° : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverOne?.cin?.cinId }} 
+                                        </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverOne?.cin?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li> -->
+
+                                <!-- <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> Permis N° : </b><span
+                                            class="text-muted">
+                                            {{ contrat?.driverOne?.permis?.permisId}}
+                                        </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au :</b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.permis?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li> -->
+                            </ul>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <!-- CARD CLIENT 1 -->
+                <div *ngIf="hideEnterpriseCard" class="card mb-2" style="border: solid #25a8e0 2.5px;">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="../assets/img/client1.png" alt="" width="80" />
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-user"></i><b> Nom et prénom : </b>
+                                        <span class="text-muted">{{contrat?.driverOne?.nom}} {{contrat?.driverOne?.prenom}}</span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-alt"></i><b> Date de naissance : </b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.dateDeNaissance | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="fas fa-phone"></i><b> Télephone : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.driverOne?.tel }}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="two-ligne-text">
+                                        <i class="fas fa-map-marker-alt"></i><b> Adresse : </b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.address}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> CIN/Passport N° : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverOne?.cin?.cinId }} 
+                                        </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverOne?.cin?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> Permis N° : </b><span
+                                            class="text-muted">
+                                            {{ contrat?.driverOne?.permis?.permisId}}
+                                        </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au :</b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverOne?.permis?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD CLIENT 2 -->
+                <div  class="card mb-2" style="border: solid #25a8e0 2.5px;">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="../assets/img/client2.png" alt="" width="80" />
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-user"></i><b> Nom et prénom : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.driverTwo?.nom }} {{ contrat?.driverTwo?.prenom }}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-alt"></i><b> Date de naissance : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.driverTwo?.dateDeNaissance | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="fas fa-phone"></i><b> Télephone : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.driverTwo?.tel }}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="two-ligne-text">
+                                        <i class="fas fa-map-marker-alt"></i><b> Adresse : </b><span
+                                            class="text-muted">
+                                            {{ contrat?.driverTwo?.address}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> CIN/Passport N° : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverTwo?.cin?.cinId }}
+                                         </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverTwo?.cin?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-address-card"></i><b> Permis N° : </b><span
+                                            class="text-muted">
+                                            {{contrat?.driverTwo?.permis?.permisId}}
+                                        </span><br />
+                                    </div>
+                                    <div class="one-ligne-text">
+                                        <i class="far fa-calendar-check mt-2"></i><b> Valable jusqu'au :</b>
+                                        <span class="text-muted">
+                                            {{contrat?.driverTwo?.permis?.valableJusqa | date: "dd/MM/yyyy"}}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------- -->
+                <div class="card mb-1 px-4" style="border: solid #25a8e0 2.5px;">
+                    
+                            <small style="font-size: smaller">Je reconnais avoir prix connaissance des
+                                conditions
+                                générales de location (lu et aprouvé)
+                            </small>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <div class="px-2" style="border: dotted 1px gray; height: 150px ;">
+                                            <p><b> SIGNATUE DU PREMIER CONDUCTEUR:</b></p>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="px-2" style="border: dotted 1px gray; height: 150px">
+                                            <p><b> SIGNATUE DU SECOND CONDUCTEUR:</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                            
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-1" style="border: solid #25a8e0 2.5px">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <b> contrat n° :</b>
+                                <span class="text-muted"> {{contrat?.numContrat}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- CARD Véhicule -->
+                <div class="card mb-1" style="border: solid #25a8e0 2.5px">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="">
+                                <!-- <img src="../assets/img/client1.png" alt=""  width="90"> -->
+                                <h3 style="letter-spacing: 3.5px; text-decoration: underline">
+                                    <b> véhicule</b>
+                                </h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="one-ligne-text">
+                                        <b> Marque/Modele : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.voiture.marque }} / {{ contrat?.voiture.model }}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="two-ligne-text">
+                                        <b> Immatriculation : </b>
+                                        <span class="text-muted">
+                                            {{ contrat?.voiture.matricule }}
+                                        </span>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> Carburant : </b>
+                                    <span class="text-muted">
+                                        {{contrat?.voiture.carburant }}
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> Numbre de place : </b><span class="text-muted">
+                                        {{ contrat?.voiture.numPlace }}
+                                        PLACES</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-1" style="border: solid #25a8e0 2.5px">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="">
+                                <!-- <img src="../assets/img/client1.png" alt=""  width="90"> -->
+                                <h3 style="letter-spacing: 3.5px; text-decoration: underline">
+                                    <b> dureé</b>
+                                </h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <b> date de départ : </b>
+                                    <span class="text-muted">
+                                        {{contrat?.dateDepart | date: "dd/MM/yyyy HH:mm"}}
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> date de retour : </b>
+                                    <span class="text-muted">
+                                        {{contrat?.dateRetour | date: "dd/MM/yyyy HH:mm"}}
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> dureé de location : </b>
+                                    <span *ngIf="contrat?.dateRetour" class="text-muted">{{ contrat?.numDay }} jours</span>
+                                    <span *ngIf="!contrat?.dateRetour" class="text-muted">Overt</span>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-1" style="border: solid #25a8e0 2.5px">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="">
+                                <h3 style="letter-spacing: 3.5px; text-decoration: underline">
+                                    <b> règlement</b>
+                                </h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <b> total : </b>
+                                    <span class="text-muted">
+                                        {{ contrat?.numDay * contrat?.tarif | currency: "DH":"symbol":"1.2-2":"fr"}}
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> avance : </b>
+                                    <span class="text-muted">
+                                        {{contrat?.avance | currency: "DH":"symbol":"1.2-2":"fr"}}
+                                    </span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <b> reste : </b>
+                                    <span class="text-muted">
+                                        {{ contrat?.numDay * contrat?.tarif- contrat?.avance| currency: "DH":"symbol":"1.2-2":"fr"}}
+                                        DH</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="border: solid #25a8e0 2.5px">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="">
+                                <!-- <img src="../assets/img/client1.png" alt=""  width="90"> -->
+                                <h3 style="letter-spacing: 3.5px; text-decoration: underline">
+                                    <b> règlement</b>
+                                </h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <b> caution : </b>
+                                    <span class="text-muted">{{contrat?.caution | currency: "DH":"symbol":"1.2-2":"fr"}}</span> <span *ngIf="contrat?.payer"> Payeé</span><span *ngIf="!contrat?.payer"> Non Payeé</span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="../assets/img/carplan.jpeg" alt="" width="100%" height="207px" />
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div style="border: dotted 1px gray; height: 100px">
+                                        <p><b>signature et cachet de l'agence</b></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer style="position: sticky; top: 100%">
+    <div class="fotterp">
+        <div class="row">
+            <div class="col-5">
+                <h3 class="fotterh">ADRESSE</h3>
+                <p>
+                    Kasbat 372 N° 158 Rez De Chaussee Boulvard Ibnou Sina CASABLANCA
+                </p>
+            </div>
+            <div class="col-3">
+                <h3 class="fotterh">CONTACT</h3>
+                <div><i class="fas fa-phone-alt"></i> 06 02 88 62 05</div>
+                <div><i class="fas fa-phone-alt"></i> 06 61 48 12 55</div>
+                <div><i class="fas fa-envelope"> scenario1car@gmail.com</i></div>
+            </div>
+            <div class="col">
+                <h3 class="fotterh">SCENARIO CAR</h3>
+                <p>Location de voitures courte et longue dureé - 7/7 - 24/24</p>
+            </div>
+        </div>
+    </div>
+</footer>
+  </div>
+
+  
+    

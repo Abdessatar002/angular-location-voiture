@@ -1,0 +1,230 @@
+<div class="container">
+    <div class="main-body">
+
+        <h1 class="text-center mt-4">Detail véhicule<small></small> </h1>
+        <h1 class="text-center text-muted mt-3">{{voiture?.matricule}} - {{voiture?.marque +"/"+ voiture.model}} </h1>
+
+
+        <mat-tab-group>
+
+            <mat-tab label="Doc & Progression">
+                <div class="container">
+                    <div class="mt-3">
+                        <Button type="button" (click)="openModelAddDoc()" class="btn btn-success mx-3">
+                            <i class="fas fa-folder-plus"></i> Ajouter Doc...
+                        </Button>
+                        <!-- open chart model -->
+                        <button type="button" id="" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modelChart"> 
+                            <i class="fas fa-chart-line"></i> Revenu Annuel
+                        </button>
+
+                    </div>
+                    <div class="row flow-offset-1 d-flex justify-content-center mt-3">
+                        <div *ngFor="let doc of voiture?.voitureDoc" class="col-md-4 " style="width: auto;">
+                            <div class="product tumbnail thumbnail-3"><a target="_blank" href="{{doc.docUrl}}"><img
+                                        src="{{doc.docUrl}}" width="350px" height="280px" alt=""></a>
+                                <div>
+
+                                    <h5 class=""> {{doc.name}}<br>
+
+                                        <small class="fw-light">Creé le {{doc.createdAt}} </small>
+
+                                    </h5>
+                                </div>
+                                <div class="caption mb-3">
+                                    <!--Button download and telecharger-->
+                                    <button [hidden]="true" class="btn btn-secondary"><i
+                                            class="fas fa-download"></i></button>
+
+
+                                    <button (click)="openModelDelete(doc.id)" class="btn btn-danger"><i
+                                            class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf=" voiture?.voitureDoc?.length == 0" class=" alert alert-secondary">Aucune fichier</div>
+
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Contrat Associer">
+
+                <div class="table-responsive">
+                    <table style="text-align: center" class=" table table-sm table-bordered  pointer table-hover mt-2">
+                        <thead class="">
+                            <tr>
+                                <th> <i class="far fa-user"></i> N° Contrat</th>
+                                <th> <i class="far fa-user"></i> Créer le </th>
+
+                                <th><i class="fas fa-address-card"></i>Client</th>
+                                <th><i class="fas fa-id-card-alt"></i> Date Départ</th>
+                                <th><i class="fas fa-id-card-alt"></i> Date Retoure</th>
+                                <th><i class="fa fa-cogs"></i> Dureé</th>
+                                <th><i class="fa fa-cogs"></i> prix J</th>
+                                <th><i class="fa fa-cogs"></i> Total</th>
+                                <th><i class="fa fa-cogs"></i> Avance</th>
+                                <th><i class="fa fa-cogs"></i> Reste</th>
+                                <th><i class="fa fa-cogs"></i> Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cont of contratListByMatricule">
+                                <td>{{cont?.numContrat}}</td>
+                                <td>{{cont?.dateCreated | date : 'dd/MM/yyyy'}}</td>
+                                <td>{{cont?.driverOne?.nom}} {{cont?.driverOne?.prenom}}</td>
+                                <td><i style="color: green;" class="fas fa-caret-up"></i> {{cont?.dateDepart | date : 'dd/MM/yyyy HH:ss'}}</td>
+                                <td><i style="color: red;" class="fas fa-caret-down"></i> {{cont?.dateRetour | date : 'dd/MM/yyyy HH:mm'}}</td>
+                                <td>{{cont?.numDay}}</td>
+                                <td>{{cont?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                <td>{{cont?.numDay * cont?.tarif | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                <td>{{cont?.avance | currency: " ":"symbol":"1.2-2":"fr"}}</td>
+                                <td>{{cont?.numDay * cont?.tarif -cont?.avance | currency: " ":"symbol":"1.2-2":"fr" }}
+                                </td>
+
+
+                                <td>
+                                    <button (click)="selectPrntedContrat(cont)"
+                                        class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                    <button routerLink="/contrat/{{cont?.id}}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div *ngIf="contratListByMatricule.length == 0" class="alert alert-danger">
+                    La list est vide
+                </div>
+
+
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+
+
+<!--Open modal ajouter Document-->
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Ajouter Document</h5>
+                <button type="button" id="closeModal" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #uploadForm="ngForm" (ngSubmit)="addDoc(uploadForm)">
+                    <div class="form-group">
+                        <label for="" class="mt-2 form-label">Nom de fichier</label>
+                        <input type="text" ngModel name="fileName" class="form-control" />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="mt-2 form-label"></label>
+                        <input required type="file" (change)="getDoc($event.target.files[0])" #fileControler ngModel
+                            name="file" class="form-control" />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" [hidden]="false" id="submitUploadForm" class="btn btn-primary">Ajouter la
+                            document</button>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Open modal ajouter Document-->
+<a class="btn btn-primary" id="openModalAddDoc" [hidden]="true" data-bs-toggle="modal" href="#exampleModalToggle"
+    role="button">Open first modal</a>
+
+<!-- Button trigger modal delete -->
+<button [hidden]="true" type="button" id="OpenModelDelete" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#exampleModal"> </button>
+
+<!-- Modal delete -->
+<div class="modal fade model-danger" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-3" id="exampleModalLabel">suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Supprimé la document ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeModeldelete" class="btn btn-secondary"
+                    data-bs-dismiss="modal">Cancel</button>
+                <button (click)="deleteVoitureDoc()" type="button" class="btn btn-danger"><i
+                        class="fas fa-trash-alt"></i> Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modelChart" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Ajouter Document</h5>
+                <button type="button" id="closeModal" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div class="pt-2">
+                                <!-- <span class="bo"> total jours loue : 7 jours </span> -->
+                                <span class="bo">
+                                    Total Dhs : 
+                                    {{totalRevennu | currency: " ":"symbol":"1.2-2":"fr"}}  
+                                    
+
+                                </span>
+                                <span>
+                                    <select #value ngModel="{{endYear}}" name="" id=""
+                                        (change)="getRevenuAnnuel(value.value)">
+                                        <option *ngFor="let years of listOfyears" value="{{years}}">{{years}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas width="100%" height="40px" id="ctx1"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-print-contrat hidden>
+
+</app-print-contrat>

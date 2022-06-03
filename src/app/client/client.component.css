@@ -1,0 +1,17 @@
+td{
+	cursor: pointer;
+}
+._content{
+	display: flex;
+	justify-content: flex-end;
+	padding: 4px;
+	
+}
+.one-ligne-text {
+      
+	display: -webkit-box;
+	 -webkit-line-clamp: 1;
+	 -webkit-box-orient: vertical;
+	 overflow: hidden;
+	 text-overflow: ellipsis;
+  }
