@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HeaderType } from '../enum/header-type.enum';
@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public onLogin(user: User): void {
     this.showLoading = true;
-    console.log(user)
     this.subscribtion.push(
       this.authenticationService.login(user).subscribe(
         (response: HttpResponse<User>) => {
@@ -44,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         },
         (errorResponse: HttpErrorResponse) => {
-          console.log(errorResponse);
           this.sendErrorNotification(NotificationType.ERROR, errorResponse.error.message);
           this.showLoading = false;
         }

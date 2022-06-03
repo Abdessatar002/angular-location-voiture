@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Contrat } from '../model/contrat';
 import { SharedPrintContratService } from '../service/shared-print-contrat.service';
@@ -9,6 +9,7 @@ import { SharedPrintContratService } from '../service/shared-print-contrat.servi
   styleUrls: ['./print-contrat.component.css']
 })
 export class PrintContratComponent implements OnInit, OnDestroy {
+
   public contrat: Contrat;
   public subscription: Subscription[] = [];
   public hideEnterpriseCard: boolean = false;
