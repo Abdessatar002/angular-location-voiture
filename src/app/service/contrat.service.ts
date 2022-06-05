@@ -19,6 +19,13 @@ export class ContratService {
   getRevenuAnnuel(year: number, voitureId: number): Observable<any> {
     return this.http.get<any>(`${this.host}/contrat/revenu/${year}/${voitureId}`)
   }
+  generateContratPdf(contratId: number): any {
+    const httpOptions = {
+      responseType: 'arraybuffer' as 'json'
+      // 'responseType'  : 'blob' as 'json'        //This also worked
+    };
+    return this.http.get<any>(`${this.host}/contrat/contrat-pdf?contratId=${contratId}`, httpOptions)
+  }
   getContartsEnCours(): Observable<Contrat[]> {
     return this.http.get<Contrat[]>(`${this.host}/contrat/en_location`)
   }

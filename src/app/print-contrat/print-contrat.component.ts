@@ -1,6 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Contrat } from '../model/contrat';
+import { ContratService } from '../service/contrat.service';
 import { SharedPrintContratService } from '../service/shared-print-contrat.service';
 
 @Component({
@@ -14,17 +16,27 @@ export class PrintContratComponent implements OnInit, OnDestroy {
   public subscription: Subscription[] = [];
   public hideEnterpriseCard: boolean = false;
 
-  constructor(private sharedPrintContrat: SharedPrintContratService) {
+  constructor(private sharedPrintContrat: SharedPrintContratService, private contratService: ContratService) {
+
     this.subscription.push(
       this.sharedPrintContrat.getContratData$.subscribe(
         contrat => {
           this.contrat = contrat
-          if (this.contrat.driverOne.nom) {
-            this.hideEnterpriseCard = true
-          } else this.hideEnterpriseCard = false
-          setTimeout(() => {
-            document.getElementById('printButton1').click();
-          });
+          contratService.generateContratPdf(contrat.id).subscribe(data => {
+            const file = new Blob([data], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL);
+          }, (error: HttpErrorResponse) => {
+            console.log(error.error.message)
+
+          }
+          )
+          // if (this.contrat.driverOne.nom) {
+          //   this.hideEnterpriseCard = true
+          // } else this.hideEnterpriseCard = false
+          // setTimeout(() => {
+          //               document.getElementById('printButton1').click();
+          // });
         }
       )
     )
