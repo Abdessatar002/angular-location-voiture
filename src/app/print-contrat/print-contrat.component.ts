@@ -22,21 +22,21 @@ export class PrintContratComponent implements OnInit, OnDestroy {
       this.sharedPrintContrat.getContratData$.subscribe(
         contrat => {
           this.contrat = contrat
-          contratService.generateContratPdf(contrat.id).subscribe(data => {
-            const file = new Blob([data], { type: 'application/pdf' });
-            const fileURL = URL.createObjectURL(file);
-            window.open(fileURL);
-          }, (error: HttpErrorResponse) => {
-            console.log(error.error.message)
+          // contratService.generateContratPdf(contrat.id).subscribe(data => {
+          //   const file = new Blob([data], { type: 'application/pdf' });
+          //   const fileURL = URL.createObjectURL(file);
+          //   window.open(fileURL);
+          // }, (error: HttpErrorResponse) => {
+          //   console.log(error.error.message)
 
-          }
-          )
-          // if (this.contrat.driverOne.nom) {
-          //   this.hideEnterpriseCard = true
-          // } else this.hideEnterpriseCard = false
-          // setTimeout(() => {
-          //               document.getElementById('printButton1').click();
-          // });
+          // }
+          // )
+          if (this.contrat.driverOne.nom) {
+            this.hideEnterpriseCard = true
+          } else this.hideEnterpriseCard = false
+          setTimeout(() => {
+            document.getElementById('printButton1').click();
+          });
         }
       )
     )
