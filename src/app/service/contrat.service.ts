@@ -24,7 +24,7 @@ export class ContratService {
       //responseType: 'arraybuffer' as 'json'
       responseType: 'blob' as 'json'        //This also worked
     };
-    return this.http.options<any>(`${this.host}/contrat/contrat-pdf?contratId=${contratId}`, httpOptions)
+    return this.http.get<any>(`${this.host}/contrat/contrat-pdf?contratId=${contratId}`, httpOptions)
   }
   getContartsEnCours(): Observable<Contrat[]> {
     return this.http.get<Contrat[]>(`${this.host}/contrat/en_location`)
