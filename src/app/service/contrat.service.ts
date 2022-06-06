@@ -21,8 +21,8 @@ export class ContratService {
   }
   generateContratPdf(contratId: number): any {
     const httpOptions = {
-      responseType: 'arraybuffer' as 'json'
-      // 'responseType'  : 'blob' as 'json'        //This also worked
+      //responseType: 'arraybuffer' as 'json'
+      responseType: 'blob' as 'json'        //This also worked
     };
     return this.http.get<any>(`${this.host}/contrat/contrat-pdf?contratId=${contratId}`, httpOptions)
   }
