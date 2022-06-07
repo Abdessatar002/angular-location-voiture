@@ -1,12 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { invalid } from '@angular/compiler/src/render3/view/util';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { title } from 'process';
 import { Subscription } from 'rxjs';
-
-import { ClientComponent } from '../client/client.component';
-import { Client } from '../model/client';
 import { ClientDto } from '../model/clientDto';
 import { Contrat } from '../model/contrat';
 import { Entreprise } from '../model/entreprise';
@@ -18,7 +13,7 @@ import { EnterpriseService } from '../service/enterprise.service';
 import { NotificationService } from '../service/notification.service';
 import { SharedPrintContratService } from '../service/shared-print-contrat.service';
 import { VoitureService } from '../service/voiture.service';
-
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -168,9 +163,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
             'rgba(153, 102, 255, 1)',
             'rgba(255, 159, 64, 1)'
           ],
-          borderWidth: 1
+          borderWidth: 1,
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+
+          },
         }]
       },
+      plugins: [ChartDataLabels],
       options: {
         plugins: {
           title: {
@@ -179,7 +180,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           },
           legend: {
             display: false,
-
           }
         }
 

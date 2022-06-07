@@ -43,6 +43,8 @@ import { FactureFilterPipe } from './filter/facture-filter.pipe';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputMaskModule } from 'primeng/inputmask';
+import { LoaderInterceptor } from './interceptor/loader.interceptor';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -83,6 +85,7 @@ import { InputMaskModule } from 'primeng/inputmask';
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatTabsModule,
     NgbModule,
     NgxPrintModule,
@@ -95,7 +98,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 
 
   ],
-  providers: [DatePipe, AuthenticationGuard, UserService, AuthenticationService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [DatePipe, AuthenticationGuard, UserService, AuthenticationService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
