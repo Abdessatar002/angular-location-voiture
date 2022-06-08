@@ -3,16 +3,30 @@
 
 <router-outlet></router-outlet>
 <notifier-container></notifier-container>
-<!-- 
 
-<div id="test" style="height:297mm; width:210mm; margin-left:auto; margin-right:auto;">
-<p>
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Possimus dolores earum mollitia, facere ex vitae iure sapiente labore distinctio impedit ad optio inventore et sequi voluptatum cum? Libero, veniam? Repudiandae.
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit aliquam laboriosam ullam impedit maiores sunt qui corporis accusantium, sequi optio quisquam, cupiditate quaerat in non. Vitae magnam recusandae ea odit?
-</p>
-<img src="./assets/img/carplan.jpeg" alt="">
+
+<div id="content"  #content style="height:841px; width:596px; margin-left:auto; margin-right:auto; border: 2px solid red; font-size: xx-small;text-transform: uppercase;
+font-weight: bold;">
+<img class="mb-1" width="100%" height="100px" src="assets/img/scenario entite.jpeg" alt="">
+<div class="row" style="width: 100%;padding: 0; margin: 0;">
+  <div class="col-7">
+    
+      <div class="card"  style="border: solid #25a8e0 2px;">
+          <div class="m-0 p-0 card-body align-items-center text-center">
+               <span style="letter-spacing: 4px;">contrat de location</span>
+          </div>
+      </div>
+  
+  </div>
+  <div class="col" >
+    <div class="card" style="border: solid #25a8e0 2px;">
+      <div class="m-0 p-0 card-body align-items-center text-center">
+          <b>N° Contrat : </b> <span class="text-muted"> blablaa blablaaa</span>
+      </div>
+  </div>
+  </div>
 </div>
-
-<button [useExistingCss]="true"   printSectionId="test" printTitle="{{title}}"  ngxPrint id="test-print">
-    print to pdf
-  </button> -->
+</div>
+  <button (click)="generatePdf()">
+    new
+  </button>
