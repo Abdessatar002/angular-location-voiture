@@ -11,7 +11,8 @@ export class AppComponent {
   @ViewChild('content', { static: false }) el !: ElementRef
 
   generatePdf() {
-    let pdf = new jsPDF('p', 'pt', 'a4')
+    let pdf = new jsPDF('p', 'pt', 'a4', true)
+
     pdf.html(this.el.nativeElement, {
       callback: (pdf) => {
         pdf.output("dataurlnewwindow")

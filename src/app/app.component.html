@@ -5,28 +5,155 @@
 <notifier-container></notifier-container>
 
 
-<div id="content"  #content style="height:841px; width:596px; margin-left:auto; margin-right:auto; border: 2px solid red; font-size: xx-small;text-transform: uppercase;
+<div [hidden]="true" id="content"  #content style="height:841px;letter-spacing: 20px; width:596px; margin-left:auto; margin-right:auto; border: 2px solid red; font-size: xx-small;letter-spacing: 0.01px;text-transform: uppercase;
 font-weight: bold;">
 <img class="mb-1" width="100%" height="100px" src="assets/img/scenario entite.jpeg" alt="">
 <div class="row" style="width: 100%;padding: 0; margin: 0;">
-  <div class="col-7">
-    
-      <div class="card"  style="border: solid #25a8e0 2px;">
+  <div class="col-7 ps-1 pe-1">
+    <!-- title -->
+      <div class="card mb-1"  style="border: solid #25a8e0 2px;">
           <div class="m-0 p-0 card-body align-items-center text-center">
                <span style="letter-spacing: 4px;">contrat de location</span>
           </div>
       </div>
-  
-  </div>
-  <div class="col" >
-    <div class="card" style="border: solid #25a8e0 2px;">
-      <div class="m-0 p-0 card-body align-items-center text-center">
-          <b>N° Contrat : </b> <span class="text-muted"> blablaa blablaaa</span>
+
+      <!-- client 1 -->
+      <div class="card  mb-1"  style="border: solid #25a8e0 2px;">
+            <div class="card-body m-0 p-0">
+              
+                <div class="d-flex flex-column align-items-center text-center">
+                  <img src="../assets/img/client1.png" alt="" width="40" />
+              </div>
+
+              <div class="ps-3">
+                <div class="one-ligne-text">
+                  NOM ET PRENOM: <span class="text-muted"> abdessatar aliouch abdessatar   aliouch abdessatar alio</span>
+                </div>
+                <div class="one-ligne-text">
+                  DATE DE NAISSANCE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+                </div>
+                <div class="one-ligne-text">
+                  TÉLEPHONE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+                </div>
+                <div class="two-ligne-text">
+                  ADRESSE: <span class="text-muted"> ABDESSATAR ABDESSATAR ABDESSATAR ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH</span>
+                  </div>
+                <hr class="m-0 p-0"> 
+                <div class="two-ligne-text" >
+                  CIN/passport N°: <span class="text-muted"> bk23232343</span>
+                </div>
+                <div class="two-ligne-text">
+                  VALABLE JUSQU'AU: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+                  <hr class="m-0 p-0">
+                </div>
+                <div  class="two-ligne-text">
+                  PERMIS N°: <span class="text-muted">  ABDESSATAR ALIOUCH</span>
+                </div>
+                <div class="two-ligne-text">
+                  VALABLE JUSQU'AU: <span class="text-muted">ABDESSATAR ALIOUCH</span>
+                </div>
+              </div>
+
+              
+                  
+              
+            </div>
+        
+    </div>
+
+    <!-- client 2 -->
+    <div class="card mb-1"  style="border: solid #25a8e0 2px;">
+      <div class="card-body m-0 p-0">
+        
+          <div class="d-flex flex-column align-items-center text-center">
+            <img src="../assets/img/client1.png" alt="" width="40" />
+        </div>
+
+        <div class="ps-3">
+          <div class="one-ligne-text">
+            NOM ET PRENOM: <span class="text-muted"> abdessatar aliouch abdessatar   aliouch abdessatar alio</span>
+          </div>
+          <div class="one-ligne-text">
+            DATE DE NAISSANCE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+          </div>
+          <div class="one-ligne-text">
+            TÉLEPHONE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+          </div>
+          <div class="two-ligne-text">
+            ADRESSE: <span class="text-muted"> ABDESSATAR ABDESSATAR ABDESSATAR ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH ABDESSATAR ALIOUCH</span>
+            </div>
+          <hr class="m-0 p-0"> 
+          <div class="two-ligne-text" >
+            CIN/passport N°: <span class="text-muted"> bk23232343</span>
+          </div>
+          <div class="two-ligne-text">
+            VALABLE JUSQU'AU: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+            <hr class="m-0 p-0">
+          </div>
+          <div  class="two-ligne-text">
+            PERMIS N°: <span class="text-muted">  ABDESSATAR ALIOUCH</span>
+          </div>
+          <div class="two-ligne-text">
+            VALABLE JUSQU'AU: <span class="text-muted">ABDESSATAR ALIOUCH</span>
+          </div>
+        </div>
+      </div>
+</div>
+<!-- signature-->
+<div class="card"  style="border: solid #25a8e0 2px;">
+  <div class="card-body m-0 p-0">
+    <small class="" style="font-size: 6px">
+      Je reconnais avoir prix connaissance des conditions générales de location (lu et aprouvé)
+    </small>
+    <div class="row mb-2">
+      <div class="col">
+          <div class="px-2" style="border: dotted 1px gray; height: 70px ;">
+              <p style="font-size: 7px"><b>SIGNATUE DU PREMIER CONDUCTEUR :</b></p>
+          </div>
+      </div>
+      <div class="col">
+          <div class="px-2" style="border: dotted 1px gray; height:70px">
+              <p style="font-size: 7px"><b> SIGNATUE DU SECOND CONDUCTEUR :</b></p>
+          </div>
       </div>
   </div>
+  <br>
+    </div>
+  </div>
+
+  
+  </div>
+  <div class="col ps-1 pe-1" >
+    <div class="card mb-1" style="border: solid #25a8e0 2px;">
+      <div class="m-0 p-0 card-body align-items-center text-center">
+          <b>N° Contrat: </b> <span class="text-muted">blablaa  blablaaa</span>
+      </div>
+  </div>
+
+  <div class="card" style="border: solid #25a8e0 2px;">
+    <div>
+      <h3 class="ps-1" style="letter-spacing: 3px;">
+        <b style="border-bottom:2px solid black ;"> véhicule</b>
+    </h3>
+    <div class="ps-3">
+      <div class="one-ligne-text">
+        NOM ET PRENOM: <span class="text-muted"> abdessatar aliouch abdessatar   aliouch abdessatar alio</span>
+      </div>
+      <div class="one-ligne-text">
+        DATE DE NAISSANCE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+      </div>
+      <div class="one-ligne-text">
+        TÉLEPHONE: <span class="text-muted"> ABDESSATAR ALIOUCH</span>
+      </div>
+      <div class="two-ligne-text">
+        VALABLE JUSQU'AU: <span class="text-muted">ABDESSATAR ALIOUCH</span>
+      </div>
+    </div>
+    </div>
+</div>
   </div>
 </div>
 </div>
-  <button (click)="generatePdf()">
+  <button [hidden]="true"  (click)="generatePdf()">
     new
   </button>
